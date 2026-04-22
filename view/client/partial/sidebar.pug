@@ -1,0 +1,22 @@
+aside.sidebar
+    .logo
+        | Sóng Nhạc 
+        span.logo-dot
+
+    nav
+        .nav-label Khám phá
+
+        .nav-item.active Trang chủ
+        .nav-item Tìm kiếm
+        .nav-item Thư viện
+        .nav-item Yêu thích
+
+    .playlists
+        .nav-label Danh sách phát
+
+        //- each item in playlists
+        //-     .playlist-item
+        //-         .playlist-thumb(style=`background:${item.bg}`)= item.icon
+        //-         div
+        //-             div(style="font-size:0.85rem;font-weight:500;color:var(--dark)")= item.name
+        //-             div(style="font-size:0.72rem;color:var(--brown)")= item.count

@@ -10,13 +10,11 @@ database.connect();
 
 app.set("views", "./view");
 app.set("view engine", "pug");
-
-app.get("/topics", (req: Request, res: Response)=>{
-    res.render("client/page/topics/index", {
-        titlePage: "Thể loại nhạc"
-    });
-});
-
+// Cấu hình file tĩnh
+app.use(express.static("public"));
+// Router
+import { indexRouter } from "./router/client/index.router";
+indexRouter(app);
 app.listen(port, () =>{
     console.log(`Đang nghe ở cổng ${port}`);
 });
