@@ -5,7 +5,7 @@
         // "rootDir": "./src", //Thư mục chứa file TS
         // "outDir": "./dist", //Thư mục trả ra file JS
         "esModuleInterop": true, // Hỗ trợ import mặc định
-        "strict": true, // Kiểm tra lỗi chặt chẽ
+        "strict": false, // Kiểm tra lỗi chặt chẽ
         "removeComments": true
     }
 }

@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-const topicSchema = new mongoose.Schema({
-    title: String,
+const singerSchema = new mongoose.Schema({
+    fullName: String,
     avatar: String,
     description: String,
     status: String,
@@ -11,6 +11,7 @@ const topicSchema = new mongoose.Schema({
         slug: "title",
         unique: true
     },
+    fan: Number,
     deleted: {
         type: Boolean,
         default: false
@@ -22,5 +23,5 @@ const topicSchema = new mongoose.Schema({
     }
 );
 
-const Topic = mongoose.model("Topic", topicSchema, "topics");
-export default Topic;
+const Singer = mongoose.model("Singer", singerSchema, "singer");
+export default Singer;

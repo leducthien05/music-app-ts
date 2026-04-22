@@ -427,3 +427,142 @@ nav { display: flex; flex-direction: column; gap: 0.4rem; }
   0%,100% { transform: scaleY(0.5); }
   50% { transform: scaleY(1); }
 }
+
+/* Trang topics */
+/* TOPICS GRID */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+}
+
+/* CARD */
+.topic-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+  height: 160px;
+  display: block;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.topic-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGE */
+.topic-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* OVERLAY */
+.topic-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+/* TEXT */
+.topic-info {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  color: white;
+}
+
+.topic-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.topic-info p {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* list song */
+/* LIST */
+.songs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* ROW */
+.song-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.song-row:hover {
+  background: var(--warm-white);
+}
+
+/* LEFT */
+.song-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.song-index {
+  width: 20px;
+  text-align: center;
+  color: var(--brown);
+  font-size: 0.8rem;
+}
+
+.song-thumb {
+  width: 45px;
+  height: 45px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* INFO */
+.song-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.song-artist {
+  font-size: 0.75rem;
+  color: var(--brown);
+}
+
+/* RIGHT */
+.song-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.song-duration {
+  font-size: 0.8rem;
+  color: var(--brown);
+}
+
+.song-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--taupe);
+}
+
+.song-btn:hover {
+  color: var(--pink);
+}

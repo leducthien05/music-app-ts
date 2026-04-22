@@ -14,8 +14,17 @@ block content
 
             div(class="featured-grid")
                 each item in topic
-                    div(class="featured-card")
-                        div(class="card-note") #{item.icon}
-                        div(class="card-info")
-                            h3= item.name
+                    a(
+                        class="topic-card"
+                        href=`/topics/${item.slug}`
+                    )
+                        img(
+                            class="topic-img"
+                            src=item.avatar, 
+                            alt=item.title
+                        )
+
+                        div(class="topic-overlay")
+                        div(class="topic-info")
+                            h3= item.title
                             p= item.description

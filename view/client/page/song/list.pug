@@ -1,0 +1,35 @@
+extends ../../layout/default.pug
+
+block content
+    main(class="main")
+        div(class="topbar")
+            div
+                div(class="greeting") #{topic.title}
+                div(style="font-size:0.85rem;color:var(--brown);margin-top:4px")
+                    #{songs.length} bài hát
+
+        section
+            div(class="section-title") 🎶 Danh sách bài hát
+
+            div(class="songs-list")
+                each song, index in songs
+                    div(
+                        class="song-row"
+                        onclick=`playSong('${song._id}')`
+                    )
+                        div(class="song-left")
+                            span(class="song-index") #{index + 1}
+                            img(
+                                class="song-thumb"
+                                src=song.avatar , 
+                                alt=song.nameSong
+                            )
+
+                            div(class="song-info")
+                                a(href=`/songs/detail/${song.slug}`)
+                                    div(class="song-title") #{song.nameSong}
+                                div(class="song-artist") #{song.infoSinger.fullName}
+
+                        div(class="song-right")
+                            span(class="song-duration") #{song.like}
+                            button(class="song-btn") ♥

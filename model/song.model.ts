@@ -1,14 +1,19 @@
 import mongoose from "mongoose";
 import slugify from "slugify";
 
-const topicSchema = new mongoose.Schema({
-    title: String,
+const songSchema = new mongoose.Schema({
+    nameSong: String,
+    singer_id: String,
     avatar: String,
     description: String,
+    topic_id: String,
+    like: Number,
+    audio: String,
+    lyrics: String,
     status: String,
     slug: {
         type: String,
-        slug: "title",
+        slug: "nameSong",
         unique: true
     },
     deleted: {
@@ -22,5 +27,5 @@ const topicSchema = new mongoose.Schema({
     }
 );
 
-const Topic = mongoose.model("Topic", topicSchema, "topics");
-export default Topic;
+const Song = mongoose.model("Song", songSchema, "songs");
+export default Song;
