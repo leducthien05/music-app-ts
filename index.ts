@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 import * as database from "./config/database";
 
@@ -15,6 +15,7 @@ app.use(express.static("public"));
 // Router
 import { indexRouter } from "./router/client/index.router";
 indexRouter(app);
+
 app.listen(port, () =>{
     console.log(`Đang nghe ở cổng ${port}`);
 });

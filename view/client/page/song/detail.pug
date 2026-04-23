@@ -4,16 +4,36 @@ block content
     main.main
         // HEADER SONG
         .song-header
-            img.song-cover-big(src=song.avatar, alt=song.nameSong)
+            img(
+                class="song-cover-big" 
+                src=song.avatar, 
+                alt=song.nameSong
+            )
 
             div(class="song-header-info")
                 span(class="tag") Bài hát
                 h1(class="song-title-big") #{song.nameSong}
-                p(class="song-artist-big") #{singer.nameSinger}
-
+                p(class="song-artist-big") #{song.like}
+                
                 .song-actions
-                    div(id="aplayer" data-song = song data-singer = singer)
-                    button(class="btn-like") ♥ Yêu thích
+                    div(
+                        id="aplayer" 
+                        data-song = song 
+                        data-singer = singer
+                    )
+                    button(
+                        class="btn-favorite"
+                        data-song-id-favorite=song._id
+                    ) 
+                        span(class="text") ♥ Yêu thích
+                        span(class="count-favorite") #{song.like}
+                    button(
+                        class="btn-like"
+                        data-song-id-like=song._id
+                    ) 
+                        span(class="text") 👍 Thích
+                        span(class="count-like") #{song.like}
+                        
 
         // LYRICS
         section

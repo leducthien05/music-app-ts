@@ -615,14 +615,88 @@ nav { display: flex; flex-direction: column; gap: 0.4rem; }
   cursor: pointer;
 }
 
+
+/* Btn like and favorite */
+/* Btn Like */
 .btn-like {
+  display: inline-flex; /* thêm dòng này */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   background: none;
   border: 1px solid var(--taupe);
   padding: 0.5rem 1rem;
   border-radius: 30px;
   cursor: pointer;
+
+  transition: all 0.2s ease;
 }
 
+/* hover nhẹ */
+.btn-like:hover {
+  border-color: #1235d4;
+  background: rgba(10, 16, 198, 0.08);
+}
+/* chữ */
+.btn-favorite .text {
+  font-size: 14px;
+  color: #555;
+}
+
+/* số like */
+.btn-like .count {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0774e9;
+  margin-top: 4px;
+}
+
+.btn-like.liked {
+  background: blue;
+  border: 1px solid var(--pink);
+  color: white;
+}
+/* Btn favorite */
+.btn-favorite {
+  display: inline-flex; /* thêm dòng này */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: none;
+  border: 1px solid var(--taupe);
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+/* hover nhẹ */
+.btn-favorite:hover {
+  border-color: #0e70e7;
+  background: rgba(77, 175, 255, 0.08);
+}
+/* chữ */
+.btn-favorite .text {
+  font-size: 14px;
+  color: #555;
+}
+
+/* số like */
+.btn-favorite.favorite .count {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ff4d4f;
+  margin-top: 4px;
+}
+
+.btn-favorite.favorite {
+  background: var(--pink);
+  border: 1px solid var(--pink);
+  color: white;
+}
 /* LYRICS */
 .lyrics {
   margin-top: 1rem;

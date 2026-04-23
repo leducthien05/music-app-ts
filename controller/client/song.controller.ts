@@ -55,36 +55,73 @@ export const listByTopic = async (req: Request, res: Response) => {
 
 // [GET] /songs/detail/:slugSong
 export const detail = async (req: Request, res: Response) => {
+    const song_slug: string = req.params.slugSong.toString() || "";
+    const song = await Song.findOne({
+        deleted: false,
+        status: "active",
+        slug: song_slug
+    }).select("nameSong avatar audio singer_id topic_id like");
+    if (!song) {
+        return res.status(404).send("Song not found");
+    }
+    const singer = await Singer.findOne({
+        deleted: false,
+        status: "active",
+        _id: song.singer_id
+    }).select("nameSinger slug");
+    const topic = await Topic.findOne({
+        deleted: false,
+        status: "active",
+        _id: song.topic_id
+    }).select("title slug");
+    console.log(singer);
+    res.render("client/page/song/detail", {
+        titlePage: song.nameSong,
+        song: song,
+        singer: singer,
+        topic: topic
+    });
+}
+
+// [PATCH] /songs/like/:action/:id
+export const like = async (req: Request, res: Response) => {
     try {
-        const song_slug: string = req.params.slugSong.toString() || "";
+        const song_id: string = req.params.id.toString() || "";
+        const action: string = req.params.action.toString() || "";
+
         const song = await Song.findOne({
             deleted: false,
             status: "active",
-            slug: song_slug
-        }).select("nameSong avatar audio singer_id topic_id");
+            _id: song_id
+        });
         if (!song) {
             return res.status(404).send("Song not found");
         }
-        const singer = await Singer.findOne({
-            deleted: false,
-            status: "active",   
-            _id: song.singer_id
-        }).select("nameSinger slug");
-        const topic = await Topic.findOne({
+        let newLikeCount;
+        if (action === "yes") {
+            newLikeCount = song.like + 1;
+        } else {
+            newLikeCount = song.like - 1 >= 0 ? song.like - 1 : 0;
+        }
+        await Song.updateOne({
             deleted: false,
             status: "active",
-            _id: song.topic_id
-        }).select("title slug");
-        res.render("client/page/song/detail", {
-            titlePage: song.nameSong,
-            song: song,
-            singer: singer,
-            topic: topic
+            _id: song_id
+        }, {
+            $set: {
+                like: newLikeCount
+            }
         });
+        res.json({
+            code: 200,
+            message: "Liked successfully",
+            likeCount: newLikeCount
+        })
 
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");
     }
 }
+
 
