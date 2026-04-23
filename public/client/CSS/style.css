@@ -566,3 +566,114 @@ nav { display: flex; flex-direction: column; gap: 0.4rem; }
 .song-btn:hover {
   color: var(--pink);
 }
+/* Detail Song */
+/* HEADER */
+.song-header {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.song-cover-big {
+  width: 180px;
+  height: 180px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.song-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  flex: 1;
+  min-width: 0;
+}
+
+.song-title-big {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.song-artist-big {
+  color: var(--brown);
+}
+
+/* ACTIONS */
+.song-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.play-btn-big {
+  background: var(--dark);
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.btn-like {
+  background: none;
+  border: 1px solid var(--taupe);
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+/* LYRICS */
+.lyrics {
+  margin-top: 1rem;
+  line-height: 1.8;
+  color: var(--brown);
+}
+
+/* RELATED */
+.song-item img {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+}
+
+/* Player Music*/
+.song-actions {
+  display: flex;
+  align-items: stretch;
+  gap: 15px;
+}
+
+/* Cho player chiếm hết phần còn lại */
+#aplayer {
+  flex: 0 0 60%;   /* không giãn, không co, cố định 60% */
+  min-width: 0;
+}
+
+/* Fix layout bên trong APlayer */
+.aplayer .aplayer-info {
+  width: 83%;
+}
+
+/* Thanh progress full chiều ngang */
+.aplayer .aplayer-bar-wrap {
+  width: 60%;
+}
+
+/* Hiển thị rõ thời gian */
+.aplayer .aplayer-time {
+  display: flex !important;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Tránh bị ẩn */
+.aplayer .aplayer-time-inner {
+  display: inline-block !important;
+}
+
+/* Đảm bảo không bị overflow */
+.aplayer {
+  overflow: hidden;
+}

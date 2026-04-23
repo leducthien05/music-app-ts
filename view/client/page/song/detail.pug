@@ -1,0 +1,36 @@
+extends ../../layout/default.pug
+
+block content
+    main.main
+        // HEADER SONG
+        .song-header
+            img.song-cover-big(src=song.avatar, alt=song.nameSong)
+
+            div(class="song-header-info")
+                span(class="tag") Bài hát
+                h1(class="song-title-big") #{song.nameSong}
+                p(class="song-artist-big") #{singer.nameSinger}
+
+                .song-actions
+                    div(id="aplayer" data-song = song data-singer = singer)
+                    button(class="btn-like") ♥ Yêu thích
+
+        // LYRICS
+        section
+            .section-title 📝 Lời bài hát
+            .lyrics
+                //- each line in song.lyrics
+                //-     p= line
+
+        // RELATED SONGS
+        section
+            .section-title 🎧 Bài hát liên quan
+
+            .songs-grid
+                //- each item in related
+                //-     .song-item
+                //-         .song-cover
+                //-             img(src=item.image)
+                //-         .song-meta
+                //-             .song-title= item.title
+                //-             .song-artist= item.artist
