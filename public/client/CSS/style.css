@@ -641,7 +641,7 @@ nav { display: flex; flex-direction: column; gap: 0.4rem; }
 /* chữ */
 .btn-favorite .text {
   font-size: 14px;
-  color: #555;
+  color: #3d4c5b;
 }
 
 /* số like */
@@ -675,13 +675,13 @@ nav { display: flex; flex-direction: column; gap: 0.4rem; }
 
 /* hover nhẹ */
 .btn-favorite:hover {
-  border-color: #0e70e7;
-  background: rgba(77, 175, 255, 0.08);
+  border-color: #e90ade;
+  background: rgba(223, 14, 234, 0.08);
 }
 /* chữ */
 .btn-favorite .text {
   font-size: 14px;
-  color: #555;
+  color: #ed578c;
 }
 
 /* số like */

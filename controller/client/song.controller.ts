@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import Song from "../../model/song.model";
 import Topic from "../../model/topics.model";
 import Singer from "../../model/singer.model";
+import Favorite from "../../model/song-favorite.model";
 
 // [GET] /songs
 export const index = async (req: Request, res: Response) => {
@@ -118,6 +119,71 @@ export const like = async (req: Request, res: Response) => {
             likeCount: newLikeCount
         })
 
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
+}
+
+// [POST] /songs/favorite/:action/:id
+export const favorite = async (req: Request, res: Response) => {
+    try {
+        const song_id: string = req.params.id.toString() || "";
+        const action: string = req.params.action.toString() || "";
+        if (action == "yes") {
+            const isFavorite = await Favorite.findOne({
+                song_id: song_id,
+                user_id: "123456789"
+            });
+            if (isFavorite) {
+                await Favorite.updateOne({
+                    song_id: song_id,
+                    user_id: "123456789"
+                }, {
+                    $set: {
+                        deleted: false
+                    }
+                });
+                res.json({
+                    code: 201,
+                    message: "Favorite failed"
+                });
+
+            } else {
+                const songFavorite = {
+                    song_id: song_id,
+                    user_id: "123456789" // Thay thế bằng ID của người dùng thực tế
+                };
+                const favorite = new Favorite(songFavorite);
+                await favorite.save();
+                res.json({
+                    code: 200,
+                    message: "Favorite successfully"
+                });
+            }
+        } else {
+            const isFavorite = await Favorite.findOne({
+                song_id: song_id,
+                user_id: "123456789",
+                deleted: false
+            });
+            if (isFavorite) {
+                await Favorite.updateOne({
+                    song_id: song_id,
+                    user_id: "123456789",
+                    deleted: false
+                }, {
+                    $set: {
+                        deleted: true
+                    }
+                });
+            } 
+            res.json({
+                code: 200,
+                message: "Unfavorite successfully"
+            });
+
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send("Server Error");

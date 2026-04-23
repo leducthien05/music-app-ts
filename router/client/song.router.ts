@@ -6,5 +6,5 @@ router.get("/", controller.index);
 router.get("/:slugTopic", controller.listByTopic);
 router.get("/detail/:slugSong", controller.detail);
 router.patch("/like/:action/:id", controller.like);
-
+router.post("/favorite/:action/:id", controller.favorite);
 export const RouterSong: Router = router;
