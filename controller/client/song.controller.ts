@@ -12,6 +12,10 @@ export const index = async (req: Request, res: Response) => {
         status: "active"
     });
     console.log("OK");
+    res.render("client/page/song/index", {
+        titlePage: "Songs",
+        songs: song
+    });
 }
 
 // [GET] /songs/:slugTopic

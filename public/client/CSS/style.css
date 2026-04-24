@@ -427,7 +427,65 @@ nav { display: flex; flex-direction: column; gap: 0.4rem; }
   0%,100% { transform: scaleY(0.5); }
   50% { transform: scaleY(1); }
 }
+/* AUTH ACTIONS */
+.auth-actions {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-info {
+  font-size: 13px;
+  color: #777;
+}
+
+/* BUTTON */
+.btn-login,
+.btn-register,
+.btn-logout {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+/* Login */
+.btn-login {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.btn-login:hover {
+  background: var(--primary-light);
+}
+
+/* Register */
+.btn-register {
+  background: var(--primary);
+  color: #fff;
+}
+
+.btn-register:hover {
+  background: var(--primary-dark);
+}
+
+/* Logout */
+.btn-logout {
+  background: #eee;
+  color: #333;
+}
+
+.btn-logout:hover {
+  background: #ddd;
+}
 /* Trang topics */
 /* TOPICS GRID */
 .topics-grid {

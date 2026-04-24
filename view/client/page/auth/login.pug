@@ -1,0 +1,38 @@
+extends ../../layout/auth.pug
+
+block content
+    .container
+        .card
+            .left
+                .logo
+                span ●
+                h2 Chào mừng bạn chở lại!
+                p Để giữ kết nối với chúng tôi, vui lòng đăng nhập bằng thông tin cá nhân của bạn
+
+            .right
+                h2 CHÀO MỪNG BẠN!
+                p.login-text Đăng nhập vào tài khoản của bạn để tiếp tục
+
+                form(
+                    class="form"
+                    action="/users/login"
+                    method="POST"
+                )
+                    input(
+                        type="text", 
+                        name="email",
+                        placeholder="Email..."
+                        )
+                    input(
+                        type="password", 
+                        name="password",
+                        placeholder="Password..."
+                        )
+                    a(
+                        href="/users/forgot-password"
+                    ) Quên mật khâu?
+                    button(class="btn") LOGIN
+
+                p.signup
+                    | Bạn chưa có tài khoản?
+                    a(href="/users/register") Đăng ký ngay!

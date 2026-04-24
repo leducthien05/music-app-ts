@@ -20,3 +20,19 @@ aside.sidebar
         //-         div
         //-             div(style="font-size:0.85rem;font-weight:500;color:var(--dark)")= item.name
         //-             div(style="font-size:0.72rem;color:var(--brown)")= item.count
+    // 🔥 AUTH ACTIONS
+    .auth-actions
+        if user
+            .user-info
+                span Xin chào, #{user.name}
+            a(
+                class="btn-logout"
+                href="/users/logout"
+            ) Đăng xuất
+        else
+            a(
+                class="btn-login"
+                href="/users/login") Đăng nhập
+            a(
+                class="btn-register"
+                href="/users/register") Đăng ký
