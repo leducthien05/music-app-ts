@@ -18,7 +18,7 @@ export const index = async (req: Request, res: Response) => {
     });
 }
 
-// [GET] /songs/:slugTopic
+// [GET] /songs/topics/:slugTopic
 export const listByTopic = async (req: Request, res: Response) => {
     try {
         const topic_slug: string = req.params.slugTopic.toString() || "";
@@ -27,10 +27,12 @@ export const listByTopic = async (req: Request, res: Response) => {
             status: "active",
             slug: topic_slug
         });
+        console.log(topic)
+        const id = topic.id.toString();
         const songs = await Song.find({
             deleted: false,
             status: "active",
-            topic_id: topic.id
+            topic_id: id
         }).select("nameSong singer_id avatar like slug").lean();
         for (const item of songs) {
             const infoSinger = await Singer.findOne({
@@ -60,7 +62,10 @@ export const listByTopic = async (req: Request, res: Response) => {
 
 // [GET] /songs/detail/:slugSong
 export const detail = async (req: Request, res: Response) => {
+    // Lấy slug bài hát
     const song_slug: string = req.params.slugSong.toString() || "";
+    
+    // Lấy bài hát
     const song = await Song.findOne({
         deleted: false,
         status: "active",
@@ -69,28 +74,54 @@ export const detail = async (req: Request, res: Response) => {
     if (!song) {
         return res.status(404).send("Song not found");
     }
+    // Kiểm tra người dùng đã like bài này chưa
+    const isLike = await Song.findOne({
+        deleted: false,
+        status: "active",
+        slug: song_slug,
+        "like.user_id": res.locals.user.id
+    });
+    let liked = "0";
+    if (isLike) {
+        liked = "1"
+    }
+    // Kiểm tra xem người dùng đã yêu thích bài hát này chưa
+    const isFavorite = await Favorite.findOne({
+        deleted: false,
+        user_id: res.locals.user.id,
+        song_id: song.id
+    });
+    let favorite = "0";
+    if (isFavorite) {
+        favorite = "1"
+    }
+    // Lấy ca sĩ bài hát này
     const singer = await Singer.findOne({
         deleted: false,
         status: "active",
         _id: song.singer_id
     }).select("nameSinger slug");
+    // Lấy chủ đề bài hát này
     const topic = await Topic.findOne({
         deleted: false,
         status: "active",
         _id: song.topic_id
     }).select("title slug");
-    console.log(singer);
+    // Trả data cho giao diện
     res.render("client/page/song/detail", {
         titlePage: song.nameSong,
         song: song,
         singer: singer,
-        topic: topic
+        topic: topic,
+        liked: liked,
+        favorite: favorite
     });
 }
 
 // [PATCH] /songs/like/:action/:id
 export const like = async (req: Request, res: Response) => {
     try {
+        const idUser: string = res.locals.user.id; // Thay thế bằng ID của người dùng thực tế
         const song_id: string = req.params.id.toString() || "";
         const action: string = req.params.action.toString() || "";
 
@@ -102,25 +133,40 @@ export const like = async (req: Request, res: Response) => {
         if (!song) {
             return res.status(404).send("Song not found");
         }
-        let newLikeCount;
         if (action === "yes") {
-            newLikeCount = song.like + 1;
+            await Song.updateOne({
+                deleted: false,
+                status: "active",
+                _id: song_id,
+                "like.user_id": { $ne: res.locals.user.id }
+            }, {
+                $push: {
+                    like: {
+                        user_id: idUser,
+                        createdAt: Date.now()
+                    }
+                }
+            });
         } else {
-            newLikeCount = song.like - 1 >= 0 ? song.like - 1 : 0;
+            await Song.updateOne({
+                deleted: false,
+                status: "active",
+                _id: song_id,
+                "like.user_id": idUser
+            }, {
+                $pull: {
+                    like: {
+                        user_id: idUser,
+                    }
+                }
+            });
         }
-        await Song.updateOne({
-            deleted: false,
-            status: "active",
-            _id: song_id
-        }, {
-            $set: {
-                like: newLikeCount
-            }
-        });
+        // 🔥 Lấy lại số lượng like
+        const updatedSong = await Song.findById(song_id);
         res.json({
             code: 200,
             message: "Liked successfully",
-            likeCount: newLikeCount
+            likeCount: updatedSong.like.length
         })
 
     } catch (error) {
@@ -132,56 +178,36 @@ export const like = async (req: Request, res: Response) => {
 // [POST] /songs/favorite/:action/:id
 export const favorite = async (req: Request, res: Response) => {
     try {
+        const idUser: string = res.locals.user.id; // Thay thế bằng ID của người dùng thực tế
         const song_id: string = req.params.id.toString() || "";
         const action: string = req.params.action.toString() || "";
         if (action == "yes") {
-            const isFavorite = await Favorite.findOne({
-                song_id: song_id,
-                user_id: "123456789"
+            // 🔥 check đã tồn tại chưa
+            const exist = await Favorite.findOne({ 
+                song_id: song_id, 
+                user_id: idUser 
             });
-            if (isFavorite) {
-                await Favorite.updateOne({
-                    song_id: song_id,
-                    user_id: "123456789"
-                }, {
-                    $set: {
-                        deleted: false
-                    }
-                });
-                res.json({
-                    code: 201,
-                    message: "Favorite failed"
-                });
 
-            } else {
-                const songFavorite = {
-                    song_id: song_id,
-                    user_id: "123456789" // Thay thế bằng ID của người dùng thực tế
-                };
-                const favorite = new Favorite(songFavorite);
-                await favorite.save();
-                res.json({
+            if (exist) {
+                return res.json({
                     code: 200,
                     message: "Favorite successfully"
                 });
             }
-        } else {
-            const isFavorite = await Favorite.findOne({
+            const isFavorite = new Favorite({
                 song_id: song_id,
-                user_id: "123456789",
-                deleted: false
+                user_id: idUser,
             });
-            if (isFavorite) {
-                await Favorite.updateOne({
-                    song_id: song_id,
-                    user_id: "123456789",
-                    deleted: false
-                }, {
-                    $set: {
-                        deleted: true
-                    }
-                });
-            } 
+            await isFavorite.save();
+            res.json({
+                code: 200,
+                message: "Favorite successfully"
+            });
+        } else {
+            await Favorite.deleteOne({
+                song_id: song_id,
+                user_id: idUser
+            });
             res.json({
                 code: 200,
                 message: "Unfavorite successfully"
@@ -194,4 +220,26 @@ export const favorite = async (req: Request, res: Response) => {
     }
 }
 
+// [GET] /songs/favorite-songs
+export const listFavorite = async (req: Request, res: Response) => {
+    const idUser: string = res.locals.user._id; // Thay thế bằng ID của người dùng thực tế
+    const favoriteSongs = await Favorite.find({
+        user_id: idUser,
+        deleted: false
+    });
+    for (const item of favoriteSongs) {
+        const infoSong = await Song.findOne({
+            _id: item.song_id
+        });
+        const infoSinger = await Singer.findOne({
+            _id: infoSong.singer_id
+        });
+        item["infoSong"] = infoSong;
+        item["infoSinger"] = infoSinger;
+    }
+    res.render("client/page/song/favorite-song", {
+        titlePage: "Nhạc yêu thích của bạn",
+        favorite: favoriteSongs
+    });
 
+}

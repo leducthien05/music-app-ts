@@ -13,7 +13,7 @@ block content
             div(class="song-header-info")
                 span(class="tag") Bài hát
                 h1(class="song-title-big") #{song.nameSong}
-                p(class="song-artist-big") #{song.like}
+                p(class="song-artist-big") #{singer.nameSinger}
                 
                 .song-actions
                     div(
@@ -22,17 +22,17 @@ block content
                         data-singer = singer
                     )
                     button(
-                        class="btn-favorite"
+                        class=`btn-favorite ${favorite == "1" ? "favorite" : ""}`
                         data-song-id-favorite=song._id
                     ) 
                         span(class="text") ♥ Yêu thích
                         
                     button(
-                        class="btn-like"
+                        class=`btn-like ${liked == "1" ? "liked" : ""}`
                         data-song-id-like=song._id
                     ) 
                         span(class="text") 👍 Thích
-                        span(class="count-like") #{song.like}
+                        span(class="count-like") #{song.like.length}
                         
 
         // LYRICS

@@ -79,7 +79,8 @@ export const forgotPasswordPost = async (req: Request, res: Response) => {
     const otp = generateOTP();
     const otpDoc = new OTP({
         email: user.email,
-        otp: otp
+        otp: otp,
+        expiresAt: new Date()
     });
     await otpDoc.save();
     // Gửi email chứa OTP đến người dùng (có thể sử dụng thư viện như nodemailer)

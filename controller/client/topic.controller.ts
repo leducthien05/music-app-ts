@@ -7,7 +7,6 @@ export const index = async (req: Request, res: Response) => {
         deleted: false,
         status: "active"
     });
-    console.log(topic);
     res.render("client/page/topics/index", {
         titlePage: "Thể loại nhạc",
         topic: topic

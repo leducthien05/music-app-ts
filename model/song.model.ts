@@ -1,3 +1,4 @@
+import { create } from "domain";
 import mongoose from "mongoose";
 import slugify from "slugify";
 
@@ -7,7 +8,15 @@ const songSchema = new mongoose.Schema({
     avatar: String,
     description: String,
     topic_id: String,
-    like: Number,
+    like: [
+        {
+            user_id: String,
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
     audio: String,
     lyrics: String,
     status: String,

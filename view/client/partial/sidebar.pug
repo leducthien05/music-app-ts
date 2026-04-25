@@ -3,16 +3,24 @@ aside.sidebar
         | Sóng Nhạc 
         span.logo-dot
 
-    nav
-        .nav-label Khám phá
+    div.sidebar
+        div.nav-label Khám phá
 
-        .nav-item.active Trang chủ
-        .nav-item Tìm kiếm
-        .nav-item Thư viện
-        .nav-item Yêu thích
+    ul(class="nav-list")
+        li(class="nav-item active")
+            a(href="/") Trang chủ
+
+        li(class="nav-item")
+            a(href="/search") Tìm kiếm
+
+        li(class="nav-item")
+            a(href="/library") Thư viện
+
+        li(class="nav-item")
+            a(href="/songs/favorite-songs") Yêu thích
 
     .playlists
-        .nav-label Danh sách phát
+        div(class="nav-label") Danh sách phát
 
         //- each item in playlists
         //-     .playlist-item
@@ -23,8 +31,8 @@ aside.sidebar
     // 🔥 AUTH ACTIONS
     .auth-actions
         if user
-            .user-info
-                span Xin chào, #{user.name}
+            div(class="user-info")
+                span Xin chào, #{user.fullName}
             a(
                 class="btn-logout"
                 href="/users/logout"
