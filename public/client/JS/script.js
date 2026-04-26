@@ -73,3 +73,39 @@ if (favoriteBtn.length > 0) {
     });
 
 }
+
+// Suggest search
+const formSearch = document.querySelector(".search-page-bar");
+if (formSearch) {
+    const input = formSearch.querySelector("input[name='keyword']");
+    input.addEventListener("keyup", (e) => {
+        const value = input.value;
+        const link = `/search/suggest?keyword=${value}`;
+        fetch(link)
+            .then(res => res.json())
+            .then((data) => {
+                console.log(data)
+                const ulSuggest = document.querySelector(".search-suggest");
+                if (data.result.length > 0) {
+                    let liHtml = "";
+                    liHtml = data.result.map(item => {
+                        return `
+                        <li class="suggest-item">
+                            <img src="${item.avatar}" alt="">
+                            <div class="info">
+                                <span class="title">${item.nameSong}</span>
+                                <span class="title">${item.infoSinger.nameSinger}</span>
+                            </div>
+                        </li>
+                    `;
+
+                    }).join("");
+                    ulSuggest.innerHTML = liHtml;
+                    ulSuggest.style.display = "block";
+                }else{
+                    ulSuggest.style.display = "none";
+                }
+
+            });
+    });
+}

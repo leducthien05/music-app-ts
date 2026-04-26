@@ -18,7 +18,7 @@ export const result = async (req: Request, res: Response) => {
     const keyword: string = req.query.keyword.toString();
     let result = [];
     let favorite = "0";
-    if (keyword) {
+    if (req.query.keyword) {
         const nameSong = new RegExp(keyword, "i");
         // Chuyển sang slug
         const textSearch = convertToSlug(keyword);
@@ -26,10 +26,10 @@ export const result = async (req: Request, res: Response) => {
         const songs = await Song.find({
             deleted: false,
             $or: [
-                {slug: textSearchSlug},
-                {nameSong: nameSong}
+                { slug: textSearchSlug },
+                { nameSong: nameSong }
             ]
-            
+
         });
         for (const item of songs) {
             const infoSinger = await Singer.findOne({
@@ -38,7 +38,7 @@ export const result = async (req: Request, res: Response) => {
             });
             item["infoSinger"] = infoSinger;
             // Kiểm tra xem người dùng đã yêu thích bài hát này chưa
-            
+
             if (res.locals.user) {
                 const isFavorite = await Favorite.findOne({
                     deleted: false,
@@ -59,5 +59,43 @@ export const result = async (req: Request, res: Response) => {
         keyword: keyword,
         songs: result,
         favorite: favorite
+    });
+}
+
+// [GET] /search/suggest
+export const suggest = async (req: Request, res: Response) => {
+    const keyword: string = req.query.keyword.toString();
+    let result = [];
+    if (keyword) {
+        const nameSong = new RegExp(keyword, "i");
+        // Chuyển sang slug
+        const textSearch = convertToSlug(keyword);
+        const textSearchSlug = new RegExp(textSearch, "i")
+        const songs = await Song.find({
+            deleted: false,
+            $or: [
+                { slug: textSearchSlug },
+                { nameSong: nameSong }
+            ]
+
+        });
+        for (const item of songs) {
+            const infoSinger = await Singer.findOne({
+                deleted: false,
+                _id: item.singer_id
+            });
+            result.push({
+                id: item.id,
+                nameSong: item.nameSong,
+                avatar: item.avatar,
+                description: item.description,
+                like: item.like,
+                infoSinger: infoSinger
+            });
+        }
+    }
+    res.json({
+        code: 200,
+        result: result
     });
 }
