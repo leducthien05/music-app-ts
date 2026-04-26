@@ -9,4 +9,5 @@ router.get("/detail/:slugSong", controller.detail);
 router.patch("/like/:action/:id", authMiddleware, controller.like);
 router.post("/favorite/:action/:id", authMiddleware, controller.favorite);
 router.get("/favorite-songs", authMiddleware, controller.listFavorite);
+router.patch("/listen/:idSong", controller.listen);
 export const RouterSong: Router = router;

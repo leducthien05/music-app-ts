@@ -70,7 +70,7 @@ export const detail = async (req: Request, res: Response) => {
         deleted: false,
         status: "active",
         slug: song_slug
-    }).select("nameSong avatar audio singer_id topic_id like");
+    }).select("nameSong avatar audio singer_id topic_id like listen");
     if (!song) {
         return res.status(404).send("Song not found");
     }
@@ -246,4 +246,40 @@ export const listFavorite = async (req: Request, res: Response) => {
         favorite: favoriteSongs
     });
 
+}
+
+// [PATCH] /songs/listen/:idSong
+export const listen = async (req: Request, res: Response) => {
+    try {
+        const idSong: string = req.params.idSong.toString();
+        const song = await Song.findOne({
+            deleted: false,
+            status: "active",
+            _id: idSong
+        });
+        if (!song) {
+            return res.status(404).send("Song not found");
+        }
+        
+        await Song.updateOne({
+            _id: idSong,
+            deleted: false,
+            status: "active"
+        }, {
+            $inc: {
+                listen: 1
+            }
+        });
+        // 🔥 Lấy lại số lượng nghe
+        const listenSong = await Song.findById(idSong);
+        res.json({
+            code: 200,
+            message: "Liked successfully",
+            listenCount: listenSong.listen
+        })
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Server Error");
+    }
 }

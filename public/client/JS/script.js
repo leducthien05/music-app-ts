@@ -15,6 +15,25 @@ if (aplayer) {
         ],
         autoplay: true,
     });
+    ap.on("play", function () {
+        setTimeout(() => {
+            ap.on("ended", function () {
+                const link = `/songs/listen/${songData._id}`;
+                fetch(link, {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+                    .then(res => res.json())
+                    .then((data)=>{
+                        const listCount = document.querySelector("[listen-count]");
+                        listCount.textContent = `${data.listenCount} lượt nghe`;
+                    });
+            });
+        }, 3000);
+    });
+
 }
 
 // Like button
@@ -102,7 +121,7 @@ if (formSearch) {
                     }).join("");
                     ulSuggest.innerHTML = liHtml;
                     ulSuggest.style.display = "block";
-                }else{
+                } else {
                     ulSuggest.style.display = "none";
                 }
 

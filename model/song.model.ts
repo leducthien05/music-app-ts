@@ -20,6 +20,10 @@ const songSchema = new mongoose.Schema({
     audio: String,
     lyrics: String,
     status: String,
+    listen: {
+        type: Number,
+        default: 0
+    },
     slug: {
         type: String,
         slug: "nameSong",
