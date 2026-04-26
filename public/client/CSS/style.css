@@ -833,3 +833,150 @@ nav {
 .aplayer {
   overflow: hidden;
 }
+
+/* search */
+/* ================= SEARCH PAGE (ISOLATED) ================= */
+
+/* ================= SEARCH FIX FINAL ================= */
+
+/* wrapper full nhưng căn giữa nội dung */
+.search-page {
+  width: 100%;
+  padding: 20px 30px; /* 👈 tạo khoảng cách nhẹ bên trái */
+  display: block; /* ❌ bỏ flex */
+}
+
+
+/* khối chính */
+.search-wrapper {
+  width: 100%;
+  max-width: 700px; /* 🔥 giới hạn chiều rộng */
+}
+
+/* title */
+.search-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.search-sub {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+/* ===== SEARCH BAR ===== */
+.search-bar {
+  width: 100%;
+}
+
+/* FORM */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: #f4efe9;
+  border-radius: 30px;
+  padding: 8px 10px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* INPUT */
+.search-input {
+  flex: 1;
+  min-width: 0;
+
+  border: none;
+  outline: none;
+  background: transparent;
+
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+/* BUTTON */
+.search-button {
+  flex-shrink: 0;
+
+  border: none;
+  background: #3a2c1a;
+  color: #fff;
+
+  padding: 10px 16px;
+  border-radius: 20px;
+
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.search-button:hover {
+  background: #5a4326;
+}
+
+/* focus đẹp */
+.search-form:focus-within {
+  box-shadow: 
+    0 0 0 2px rgba(197,157,95,0.3),
+    0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* ===== RESULT ===== */
+.result-list {
+  margin-top: 25px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* card */
+.result-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+
+  background: #f8f8f8;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+
+  transition: 0.2s;
+}
+
+.result-card:hover {
+  transform: translateY(-4px);
+}
+
+.result-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.result-card .info {
+  flex: 1;
+}
+
+.result-card h5 {
+  font-size: 15px;
+  margin-bottom: 3px;
+}
+
+.result-card .artist {
+  font-size: 13px;
+  color: #777;
+}
+
+/* responsive */
+@media (max-width: 992px) {
+  .result-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .result-list {
+    grid-template-columns: 1fr;
+  }
+}

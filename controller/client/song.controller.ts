@@ -64,7 +64,7 @@ export const listByTopic = async (req: Request, res: Response) => {
 export const detail = async (req: Request, res: Response) => {
     // Lấy slug bài hát
     const song_slug: string = req.params.slugSong.toString() || "";
-    
+
     // Lấy bài hát
     const song = await Song.findOne({
         deleted: false,
@@ -74,27 +74,31 @@ export const detail = async (req: Request, res: Response) => {
     if (!song) {
         return res.status(404).send("Song not found");
     }
-    // Kiểm tra người dùng đã like bài này chưa
-    const isLike = await Song.findOne({
-        deleted: false,
-        status: "active",
-        slug: song_slug,
-        "like.user_id": res.locals.user.id
-    });
     let liked = "0";
-    if (isLike) {
-        liked = "1"
-    }
-    // Kiểm tra xem người dùng đã yêu thích bài hát này chưa
-    const isFavorite = await Favorite.findOne({
-        deleted: false,
-        user_id: res.locals.user.id,
-        song_id: song.id
-    });
     let favorite = "0";
-    if (isFavorite) {
-        favorite = "1"
+    if (res.locals.user) {
+        // Kiểm tra người dùng đã like bài này chưa
+        const isLike = await Song.findOne({
+            deleted: false,
+            status: "active",
+            slug: song_slug,
+            "like.user_id": res.locals.user.id
+        });
+        if (isLike) {
+            liked = "1"
+        }
+        // Kiểm tra xem người dùng đã yêu thích bài hát này chưa
+        const isFavorite = await Favorite.findOne({
+            deleted: false,
+            user_id: res.locals.user.id,
+            song_id: song.id
+        });
+        let favorite = "0";
+        if (isFavorite) {
+            favorite = "1"
+        }
     }
+
     // Lấy ca sĩ bài hát này
     const singer = await Singer.findOne({
         deleted: false,
@@ -183,9 +187,9 @@ export const favorite = async (req: Request, res: Response) => {
         const action: string = req.params.action.toString() || "";
         if (action == "yes") {
             // 🔥 check đã tồn tại chưa
-            const exist = await Favorite.findOne({ 
-                song_id: song_id, 
-                user_id: idUser 
+            const exist = await Favorite.findOne({
+                song_id: song_id,
+                user_id: idUser
             });
 
             if (exist) {

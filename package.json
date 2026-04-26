@@ -21,7 +21,8 @@
     "mongoose": "^9.5.0",
     "nodemailer": "^8.0.5",
     "pug": "^3.0.4",
-    "slugify": "^1.6.9"
+    "slugify": "^1.6.9",
+    "unidecode": "^1.1.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
