@@ -32,8 +32,19 @@ declare global {
     }
   }
 }
+
+// TinyMCE
+import path from "path";
+app.use("/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
+
 // flash
 app.use(flash());
+
+// Biến locals
+import { systemConfig } from "./config/system";
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 app.set("views", "./view");
 app.set("view engine", "pug");
@@ -41,8 +52,10 @@ app.set("view engine", "pug");
 app.use(express.static("public"));
 // Router
 import { indexRouter } from "./router/client/index.router";
+import { indexRouterAdmin } from "./router/admin/index.router";
+indexRouterAdmin(app);
 indexRouter(app);
 
 app.listen(port, () =>{
-    console.log(`Đang nghe ở cổng ${port}`);
+  console.log(`Đang nghe ở cổng ${port}`);
 });

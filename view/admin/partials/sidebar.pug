@@ -1,0 +1,55 @@
+div(class="sidebar")
+    div(class="logo")
+        h2 Sóng Nhạc
+        span(class="badge") ADMIN
+
+    div(class="menu")
+        h4 Tổng quan
+        a(
+            href=`${prefixAdmin}/dashboard`
+            class="menu-item active")
+            i(class="fa fa-home")
+            span Dashboard
+
+        h4 Quản lý
+        a(
+            href=`${prefixAdmin}/songs`
+            class="menu-item"
+        )
+            i(class="fa fa-music")
+            span Bài hát
+
+        a(
+            href=`${prefixAdmin}/singer`
+            class="menu-item"
+        )
+            i(class="fa fa-user")
+            span Nghệ sĩ
+
+        a(
+            href=`${prefixAdmin}/list-play`
+            class="menu-item"
+        )
+            i(class="fa fa-list")
+            span Danh sách phát
+
+        a(
+            href=`${prefixAdmin}/users`
+            class="menu-item"
+        )
+            i(class="fa fa-users")
+            span Người dùng
+
+        h4 Hệ thống
+        a(
+            href=`${prefixAdmin}/setting-general`
+            class="menu-item"
+        )
+            i(class="fa fa-cog")
+            span Cài đặt
+
+    div(class="sidebar-footer")
+        div(class="avatar") AD
+        div
+            p Admin
+            small admin@songnhac.vn
