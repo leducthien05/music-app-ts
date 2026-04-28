@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import slugify from "slugify";
 
 const singerSchema = new mongoose.Schema({
-    fullName: String,
+    nameSinger: String,
     avatar: String,
     description: String,
     status: String,
