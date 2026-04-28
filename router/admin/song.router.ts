@@ -1,9 +1,20 @@
 import { Router } from "express";
 const router: Router = Router();
+import multer from "multer";
+const upload = multer();
 import * as controller from "../../controller/admin/song.controller";
-
+import * as uploadCloud from "../../middleware/admin/uploadImage.middleware";
+import * as validator from "../../validator/admin.validator";
 router.get("/", controller.index);
-// router.get("/result", controller.result);
+router.get("/create", controller.create);
+router.post(
+    "/create", 
+    upload.single("avatar"), 
+    uploadCloud.uploadSingle,
+    validator.createSong, 
+    controller.createPost
+);
+
 // router.get("/suggest", controller.suggest);
 
 export const RouterSong: Router = router;

@@ -1,6 +1,6 @@
-import { create } from "domain";
 import mongoose from "mongoose";
-import slugify from "slugify";
+import slug from "mongoose-slug-updater";
+mongoose.plugin(slug);
 
 const songSchema = new mongoose.Schema({
     nameSong: String,
@@ -8,6 +8,7 @@ const songSchema = new mongoose.Schema({
     avatar: String,
     description: String,
     topic_id: String,
+    releaseDate: Date,
     like: [
         {
             user_id: String,
