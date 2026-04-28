@@ -245,6 +245,7 @@ body {
   border-radius: 15px;
   border-spacing: 0;
   overflow: hidden;            /* giúp bo góc ăn */
+  
 }
 .table th{
   background: var(--cream);
@@ -255,10 +256,34 @@ body {
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
-
+.table th {
+  text-align: left;
+}
 .status.active {
   background: #d4edda;
   padding: 5px 10px;
   border-radius: 10px;
   color: green;
+}
+.status {
+  background: #c20505;
+  padding: 5px 10px;
+  border-radius: 10px;
+  color: white;
+}
+
+/* index */
+.action-btns button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.btn-edit i {
+  color: #3498db;
+}
+
+.btn-delete i {
+  color: #e74c3c;
 }
