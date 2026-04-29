@@ -9,8 +9,11 @@ router.get("/", controller.index);
 router.get("/create", controller.create);
 router.post(
     "/create", 
-    upload.single("avatar"), 
-    uploadCloud.uploadSingle,
+    upload.fields([  
+        {name: "avatar", maxCount: 1},
+        {name: "audio", maxCount: 1}
+    ]), 
+    uploadCloud.uploadMulti,
     validator.createSong, 
     controller.createPost
 );
