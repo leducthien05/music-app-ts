@@ -70,7 +70,7 @@ export const detail = async (req: Request, res: Response) => {
         deleted: false,
         status: "active",
         slug: song_slug
-    }).select("nameSong avatar audio singer_id topic_id like listen");
+    }).select("nameSong avatar audio singer_id topic_id like listen lyrics");
     if (!song) {
         return res.status(404).send("Song not found");
     }

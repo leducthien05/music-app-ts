@@ -85,3 +85,62 @@ export const createPost = async (req: Request, res: Response) => {
     await dataSong.save();
     res.redirect(`${systemConfig.prefixAdmin}/songs`);
 }
+
+// [GET] /admin/songs/edit:id
+export const edit = async (req: Request, res: Response) => {
+    const idSong: string = req.params.id.toString();
+    const song = await Song.findOne({
+        _id: idSong
+    });
+    if(!song){
+        return res.redirect(req.get("referer") || "/");
+    }
+    const singer = await Singer.find({
+        deleted: false,
+    });
+    const topic = await Topic.find({
+        deleted: false
+    });
+    res.render("admin/page/song/edit", {
+        titlePage: "Chỉnh sửa bài hát",
+        song: song,
+        singer: singer,
+        topic: topic
+    });
+}
+
+// [PATCH] /admin/songs/edit:id
+export const editPatch = async (req: Request, res: Response) => {
+    console.log(req.body)
+    const idSong: string = req.params.id.toString();
+    interface song {
+        nameSong: string;
+        singer_id ?: string;
+        avatar ?: string;
+        description ?: string;
+        topic_id ?: string;
+        releaseDate ?: string;
+        audio ?: string;
+        lyrics ?: string;
+        status: string;
+    };
+    const data: song = {
+        nameSong: req.body.nameSong,
+        singer_id: req.body.singer_id,
+        description: req.body.description,
+        topic_id: req.body.topic_id,
+        releaseDate: req.body.releaseDate,
+        status: "active",
+        lyrics: req.body.lyrics
+    }
+    if(req.body.audio){
+        data["audio"] = req.body.audio[0];
+    }
+    if(req.body.avatar){
+        data["avatar"] = req.body.avatar[0];
+    }
+    await Song.updateOne({
+        _id: idSong
+    }, data);
+    res.redirect(`${systemConfig.prefixAdmin}/songs`);
+}

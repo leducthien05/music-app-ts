@@ -7,11 +7,12 @@ const app: Express = express();
 const port: number | string = process.env.PORT || 8000;
 // connect Database
 database.connect();
-
 // req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+// method-override
+import methodOverride from "method-override";
+app.use(methodOverride("_method"));
 // cookie parser
 import cookieParser from "cookie-parser";
 app.use(cookieParser());

@@ -12,9 +12,19 @@ export const uploadSingle = async (req: Request, res: Response, next: NextFuncti
 
 export const uploadMulti = async (req: Request, res: Response, next: NextFunction) => {
     console.log(req["files"]);
+    /* {
+        avatar: [{
+            fieldname: "avatar",
+            buffer: <....>
+        }],
+        audio: [{
+            fieldname: "audio",
+            buffer: <....>
+        }]
+    }*/
     for(const key in req["files"]){
         req.body[key] = [];
-        const array = req["files"][key];
+        const array = req["files"][key];// array = giá trị của key(value)
         for(const item of array){
             try {
                 const result = await uploadCloudinary(item.buffer);

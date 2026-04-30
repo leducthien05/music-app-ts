@@ -78,7 +78,8 @@ block content
                                 span(class="status inactive") Inactive
                         td #{item.createAt}
                         td(class="action-btns")
-                            button(
+                            a(
+                                href=`${prefixAdmin}/songs/edit/${item._id}`
                                 class="btn-edit" 
                                 data-id=item._id 
                                 title="Sửa"

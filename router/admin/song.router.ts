@@ -18,6 +18,16 @@ router.post(
     controller.createPost
 );
 
-// router.get("/suggest", controller.suggest);
+router.get("/edit/:id", controller.edit);
+router.patch(
+    "/edit/:id", 
+    upload.fields([  
+        {name: "avatar", maxCount: 1},
+        {name: "audio", maxCount: 1}
+    ]), 
+    uploadCloud.uploadMulti,
+    validator.createSong, 
+    controller.editPatch
+);
 
 export const RouterSong: Router = router;
