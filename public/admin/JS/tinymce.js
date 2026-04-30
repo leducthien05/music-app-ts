@@ -1,7 +1,7 @@
 tinymce.init({
   selector: 'textarea.tinymce',  
   height: 500,
-
+  images_upload_url: '/admin/upload',
   plugins: 'lists link image table code help wordcount',
   toolbar: 'undo redo | bold italic | bullist numlist | image link | code',
 
