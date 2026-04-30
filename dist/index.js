@@ -61,7 +61,7 @@ app.use("/tinymce", express_1.default.static(path_1.default.join(__dirname, "nod
 app.use((0, express_flash_1.default)());
 const system_1 = require("./config/system");
 app.locals.prefixAdmin = system_1.systemConfig.prefixAdmin;
-app.set("views", `${__dirname}/view`);
+app.set("view", `${__dirname}/view`);
 app.set("view engine", "pug");
 app.use(express_1.default.static(`${__dirname}/public`));
 const index_router_1 = require("./router/client/index.router");
