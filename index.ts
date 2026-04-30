@@ -47,7 +47,7 @@ app.use(flash());
 import { systemConfig } from "./config/system";
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
-app.set("view", `${__dirname}/view`);
+app.set("views", `${__dirname}/view`);
 app.set("view engine", "pug");
 // Cấu hình file tĩnh
 app.use(express.static(`${__dirname}/public`));
