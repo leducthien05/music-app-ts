@@ -1,0 +1,123 @@
+extends ../../layout/default
+
+block content    
+    div(class="dashboard-form")
+        form(
+            class="form-add-song" 
+            method="POST" 
+            action="/admin/songs/create" 
+            enctype="multipart/form-data"
+        )
+            
+            // ===== THÔNG TIN CƠ BẢN =====
+            .card
+                h3(class="card-title") 🎵 Thông tin cơ bản
+
+                .form-grid
+                    .form-group
+                        label Tên bài hát *
+                        input(
+                            type="text" 
+                            name="nameSong" 
+                            placeholder="VD: Chill Vibes"
+                        )
+
+                    .form-group
+                        label Ca sĩ / Nghệ sĩ *
+                        select(name="singer_id")
+                            option(value="" selected = true) Chọn nghệ sĩ
+                            each item in singer 
+                                option(value=item._id) #{item.nameSinger}
+
+                    .form-group
+                        label Thể loại *
+                        select(name="topic_id")
+                            option(value="" selected = true) Chọn thể loại
+                            each item in topic 
+                                option(value=item._id) #{item.title}
+                .form-group
+                    label Mô tả *
+                    textarea(
+                        class="tinymce"
+                        name="description" 
+                        placeholder="Mô tả ngắn về bài hát..." 
+                        rows="4"
+                    )
+            // ===== MEDIA =====
+            .card
+                h3.card-title 🖼️ Hình ảnh & Âm thanh
+
+                .form-grid
+                    .upload-box
+                        label Hình ảnh bìa *
+                        input(
+                            type="file" 
+                            name="avatar"
+                        )
+
+                    .upload-box
+                        label File âm thanh *
+                        input(
+                            type="file" 
+                            name="audio"
+                        )
+
+            // ===== CÀI ĐẶT =====
+            .card
+                h3.card-title ⚙️ Cài đặt xuất bản
+
+                .form-grid
+                    .form-group
+                        label Trạng thái *
+                        .radio-group
+                            label
+                                input(
+                                    type="radio" 
+                                    name="status" 
+                                    value="active" 
+                                    checked
+                                )
+                                |  Đã đăng
+                            label
+                                input(
+                                    type="radio" 
+                                    name="status" 
+                                    value="draft"
+                                )
+                                |  Bản nháp
+                            label
+                                input(
+                                    type="radio"
+                                    name="status"
+                                    value="inactive"
+                                )
+                                |  Ẩn
+
+                    .form-group
+                        label Ngày phát hành
+                        input(
+                            type="date" 
+                            id="dateInput"
+                            name="releaseDate"
+                        )
+  
+                .form-group
+                    label Lời bài hát
+                    textarea(name="lyrics" rows="6" placeholder="Dán lời bài hát vào đây...")
+
+            // ===== ACTION =====
+            .form-actions
+                button(
+                    class="btn-reset" 
+                    type="reset"
+                ) Làm mới
+                button(
+                    class="btn-draft" 
+                    type="submit" 
+                    name="draft"
+                ) Lưu nháp
+                button(
+                    class="btn-submit"
+                    type="submit"
+                ) + Thêm bài hát
+    script(src="/admin/JS/script.js") 

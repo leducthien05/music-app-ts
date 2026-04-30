@@ -1,0 +1,53 @@
+extends ../../layout/auth.pug
+
+block content
+    if (messages.success)
+        div(
+            class="alert alert-success"
+            data-time=time
+            data-alert
+        )
+            | #{messages.success}
+            button.btn-close(type="button" data-bs-dismiss="alert")
+    .container
+        .card
+            .left
+                .logo
+                span ●
+                h2 Chào mừng bạn !
+                p Để giữ kết nối với chúng tôi, vui lòng đăng ký bằng thông tin cá nhân của bạn
+
+            .right
+                h2 CHÀO MỪNG BẠN!
+                p.login-text Đăng ký tài khoản của bạn để tiếp tục
+
+                form(
+                    class="form"
+                    action="/users/register"
+                    method="POST"
+                )
+                    input(
+                        type="text", 
+                        name="email"
+                        placeholder="Email..."
+                        )
+                    input(
+                        type="text", 
+                        name="fullName"
+                        placeholder="FullName..."
+                    )
+                    input(
+                        type="text", 
+                        name="phone"
+                        placeholder="Phone..."
+                    )
+                    input(
+                        type="password", 
+                        name="password"
+                        placeholder="Password..."
+                        )
+                    button(class="btn") REGISTER
+
+                p.signup
+                    | Bạn đã có tài khoản?
+                    a(href="/users/login") Đăng nhập ngay!

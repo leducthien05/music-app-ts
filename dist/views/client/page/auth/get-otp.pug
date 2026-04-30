@@ -1,0 +1,28 @@
+extends ../../layout/auth.pug
+
+block content
+    .auth-container
+        .auth-card
+            h2 Quên mật khẩu
+            p Nhập mã OTP đã được gửi đến email của bạn để đặt lại mật khẩu
+
+            form(
+                method="POST", 
+                action="/users/get-otp"
+            )
+                input(
+                    type="email", 
+                    name="email", 
+                    value=email,
+                    readonly
+                    required
+                )
+                input(
+                    type="text", 
+                    name="otp", 
+                    placeholder="Nhập mã OTP...", 
+                    required
+                )
+                button(class="btn") Gửi yêu cầu
+
+            a.back(href="/users/login") ← Quay lại đăng nhập
