@@ -8,8 +8,16 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec ts-node index.ts",
+    "build": "tsc && node copy_dir.js",
+    "ts.check": "tsc --project ts config.json",
+    "add-build": "git ad dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "per_commit": [
+    "ts.check",
+    "build",
+    "add-build"
+  ],
   "dependencies": {
     "bcrypt": "^6.0.0",
     "body-parser": "^2.2.2",
@@ -19,6 +27,7 @@
     "express": "^5.2.1",
     "express-flash": "^0.0.2",
     "express-session": "^1.19.0",
+    "fs-extra": "^11.3.4",
     "method-override": "^3.0.0",
     "mongoose": "^9.5.0",
     "mongoose-slug-updater": "^3.3.0",
@@ -34,6 +43,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.6.0",
     "nodemon": "^3.1.14",
+    "pre-commit": "^2.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }

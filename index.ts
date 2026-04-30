@@ -47,10 +47,10 @@ app.use(flash());
 import { systemConfig } from "./config/system";
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
-app.set("views", "./view");
+app.set("views", `${__dirname}/view`);
 app.set("view engine", "pug");
 // Cấu hình file tĩnh
-app.use(express.static("public"));
+app.use(express.static(`${__dirname}/public`));
 // Router
 import { indexRouter } from "./router/client/index.router";
 import { indexRouterAdmin } from "./router/admin/index.router";

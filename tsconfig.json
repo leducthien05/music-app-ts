@@ -3,7 +3,7 @@
         "target": "ES6", //Phiên bản JS sau khi compile
         "module": "commonjs", //Kiểu moule cho nodejs
         // "rootDir": "./src", //Thư mục chứa file TS
-        // "outDir": "./dist", //Thư mục trả ra file JS
+        "outDir": "./dist", //Thư mục trả ra file JS
         "esModuleInterop": true, // Hỗ trợ import mặc định
         "strict": false, // Kiểm tra lỗi chặt chẽ
         "removeComments": true
