@@ -1,0 +1,39 @@
+extends ../../layout/default.pug
+include ../../mixin/box-head.pug
+
+block content
+    .topbar
+        div(class="greeting")
+            | Chào buổi sáng, 
+            span Bạn ơi
+            |  🌤
+
+        div(class="search-bar")
+            input(
+                type="text", 
+                placeholder="Tìm bài hát..."
+            )
+
+    section
+        div(class="section-title") ✦ Nổi bật hôm nay
+
+        div(class="featured-grid")
+            //- each card in featured
+            //-     .featured-card
+            //-     .card-note= card.icon
+            //-     .card-info
+            //-         h3= card.title
+            //-         p= card.desc
+
+    section
+        div(class="section-title") 🎶 Bài hát phổ biến
+
+        div(class="songs-grid")
+            //- each song, index in songs
+            //-     .song-item(class=index === 0 ? "active" : "")
+            //-         .song-num= index + 1
+            //-         .song-cover(style=`background:${song.bg}`)= song.icon
+            //-         .song-meta
+            //-             .song-title= song.title
+            //-             .song-artist= song.artist
+            //-         .song-duration= song.time

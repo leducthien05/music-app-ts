@@ -1,0 +1,30 @@
+extends ../../layout/default.pug
+include ../../mixin/box-head.pug
+
+block content
+    main(class="main")
+        .topbar
+            div
+                div(class="greeting") Danh sách thể loại 🎧
+                div(style="font-size:0.85rem;color:var(--brown);margin-top:4px")
+                    | Khám phá âm nhạc theo sở thích của bạn
+
+        section
+            div(class="section-title") 🎼 Thể loại phổ biến
+
+            div(class="featured-grid")
+                each item in topic
+                    a(
+                        class="topic-card"
+                        href=`/songs/topics/${item.slug}`
+                    )
+                        img(
+                            class="topic-img"
+                            src=item.avatar, 
+                            alt=item.title
+                        )
+
+                        div(class="topic-overlay")
+                        div(class="topic-info")
+                            h3= item.title
+                            p= item.description

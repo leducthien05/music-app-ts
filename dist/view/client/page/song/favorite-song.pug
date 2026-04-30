@@ -1,0 +1,39 @@
+extends ../../layout/default.pug
+
+block content
+    main(class="main")
+        div(class="topbar")
+            div
+                div(style="font-size:0.85rem;color:var(--brown);margin-top:4px")
+                    | #{favorite.length} bài hát
+
+        section
+            div(class="section-title") 🎶 Danh sách bài hát yêu thích
+
+            div(class="songs-list")
+                each song, index in favorite
+                    div(
+                        class="song-row"
+                    )
+                        div(class="song-left")
+                            span(class="song-index") #{index + 1}
+                            img(
+                                class="song-thumb"
+                                src=song.infoSong.avatar , 
+                                alt=song.infoSong.nameSong
+                            )
+
+                            div(class="song-info")
+                                a(href=`/songs/detail/${song.infoSong.slug}`)
+                                    div(class="song-title") #{song.infoSong.nameSong}
+                                div(class="song-artist" ) #{song.infoSinger.slug}
+
+                        div(class="song-right")
+                            span(class="song-duration")
+                            button(
+                                style="color: var(--pink)"
+                                class="btn-favorite favorite" 
+                                data-song-id-favorite = song.song_id
+                            ) 
+                                span(class="text") ♥ Yêu thích
+                            
