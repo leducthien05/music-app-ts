@@ -9,7 +9,7 @@
   "scripts": {
     "start": "nodemon --exec ts-node index.ts",
     "build": "tsc && node copy_dir.js",
-    "ts.check": "tsc --project ts config.json",
+    "ts.check": "tsc --project ts tsconfig.json",
     "add-build": "git add dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
