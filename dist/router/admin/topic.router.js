@@ -32,10 +32,23 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RouterTopic = void 0;
 const express_1 = require("express");
 const router = (0, express_1.Router)();
+const multer_1 = __importDefault(require("multer"));
+const upload = (0, multer_1.default)();
 const controller = __importStar(require("../../controller/admin/topic.controller"));
+const uploadImage = __importStar(require("../../middleware/admin/uploadImage.middleware"));
+const validate = __importStar(require("../../validator/admin.validator"));
 router.get("/", controller.index);
+router.patch("/change-status/:status/:id", controller.changeStatus);
+router.get("/create", controller.create);
+router.post("/create", upload.single("avatar"), uploadImage.uploadSingle, validate.createTopic, controller.createPost);
+router.get("/edit/:id", controller.edit);
+router.patch("/edit/:id", upload.single("avatar"), uploadImage.uploadSingle, validate.createTopic, controller.editPatch);
+router.delete("/delete/:id", controller.deleted);
 exports.RouterTopic = router;

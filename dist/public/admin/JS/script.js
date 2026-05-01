@@ -83,7 +83,7 @@ if (sortTopic) {
         window.location.href = url.href;
     });
     const key = url.searchParams.get("topic");
-    if(key){
+    if (key) {
         const option = document.querySelector(`option[value='${key}']`);
         option.selected = true;
     }
@@ -102,7 +102,7 @@ if (sortSinger) {
         window.location.href = url.href;
     });
     const key = url.searchParams.get("singer");
-    if(key){
+    if (key) {
         const option = document.querySelector(`option[value='${key}']`);
         option.selected = true;
     }
@@ -118,3 +118,18 @@ if (btnClear) {
     });
 }
 
+// Xóa
+const formDelte = document.querySelector("#form-delete");
+const path = formDelte.action;
+if (formDelte) {
+    const btnDelete = document.querySelector("[btn-delete]");
+    if (btnDelete) {
+        btnDelete.addEventListener("click", () => {
+            const id = btnDelete.getAttribute("data-id");
+            const action = `${path}/${id}?_method=DELETE`;
+            formDelte.action = action;
+            formDelte.submit();
+        });
+    }
+
+}

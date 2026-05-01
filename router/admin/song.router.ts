@@ -30,5 +30,6 @@ router.patch(
     controller.editPatch
 );
 router.patch("/change-status/:status/:id", controller.changeStatus);
+router.delete("/delete/:id", controller.deleted);
 
 export const RouterSong: Router = router;

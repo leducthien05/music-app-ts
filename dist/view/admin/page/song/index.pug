@@ -58,11 +58,11 @@ block content
             )
                 input(
                     type="text", 
-                    placeholder="Tìm kiếm thể loại"
+                    placeholder="Tìm kiếm bài hát"
                     name="keyword"
                 )
             a(
-                href="/admin/songs/create"
+                href=`${prefixAdmin}/songs/create`
                 class="btn-add"
             )
                 i(class="fa fa-plus")
@@ -116,6 +116,7 @@ block content
                             )
                                 i(class="fa fa-pen")
                             button(
+                                btn-delete
                                 class="btn-delete" 
                                 data-id=item._id 
                                 title="Xóa"
@@ -127,4 +128,9 @@ block content
     form(
         action = `${prefixAdmin}/songs`
         id="form-get-path"
+    )
+    form(
+        action = `${prefixAdmin}/songs/delete`
+        method="POST"
+        id="form-delete"
     )

@@ -8,7 +8,6 @@ import { systemConfig } from "../../config/system";
 import { search } from "../../helper/search";
 import { pagination } from "../../helper/pagination";
 import { filterStatus } from "../../helper/filterStatus";
-import { convertToSlug } from "../../helper/convertToSlug";
 
 // [GET] /admin/songs
 export const index = async (req: Request, res: Response) => {
@@ -145,7 +144,7 @@ export const createPost = async (req: Request, res: Response) => {
     res.redirect(`${systemConfig.prefixAdmin}/songs`);
 }
 
-// [GET] /admin/songs/edit:id
+// [GET] /admin/songs/edit/:id
 export const edit = async (req: Request, res: Response) => {
     const idSong: string = req.params.id.toString();
     const song = await Song.findOne({
@@ -168,7 +167,7 @@ export const edit = async (req: Request, res: Response) => {
     });
 }
 
-// [PATCH] /admin/songs/edit:id
+// [PATCH] /admin/songs/edit/:id
 export const editPatch = async (req: Request, res: Response) => {
     console.log(req.body)
     const idSong: string = req.params.id.toString();
@@ -221,4 +220,17 @@ export const changeStatus = async (req: Request, res: Response) => {
         message: "Cập nhật thành công",
         status: status
     });
+}
+
+// [DELETE] /admin/topics/delete/:id
+export const deleted = async (req: Request, res: Response) => {
+    const idSong: string = req.params.id.toString();
+    await Song.updateOne({
+        _id: idSong
+    }, {
+        $set: {
+            deleted: true
+        }
+    });
+    res.redirect(`${systemConfig.prefixAdmin}/songs`);
 }

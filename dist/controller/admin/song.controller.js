@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeStatus = exports.editPatch = exports.edit = exports.createPost = exports.create = exports.index = void 0;
+exports.deleted = exports.changeStatus = exports.editPatch = exports.edit = exports.createPost = exports.create = exports.index = void 0;
 const topics_model_1 = __importDefault(require("../../model/topics.model"));
 const song_model_1 = __importDefault(require("../../model/song.model"));
 const singer_model_1 = __importDefault(require("../../model/singer.model"));
@@ -197,3 +197,15 @@ const changeStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 exports.changeStatus = changeStatus;
+const deleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const idSong = req.params.id.toString();
+    yield song_model_1.default.updateOne({
+        _id: idSong
+    }, {
+        $set: {
+            deleted: true
+        }
+    });
+    res.redirect(`${system_1.systemConfig.prefixAdmin}/songs`);
+});
+exports.deleted = deleted;

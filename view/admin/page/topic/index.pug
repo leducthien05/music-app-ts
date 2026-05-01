@@ -1,5 +1,7 @@
 extends ../../layout/default
 include ../../mixin/pagination.pug
+include ../../mixin/pagination.pug
+include ../../mixin/filterStatus.pug
 block content
     div(class="dashboard")
 
@@ -26,14 +28,10 @@ block content
                 span(class="down") ↓ 1.1%
 
         // FILTER
-        div(class="tabs")
-            span(class="active") Tất cả
-            span Đã đăng
-            span Bản nháp
-            span Ẩn
+        +filterStatus
 
         // SEARCH
-        div(class="search-bar")
+        ddiv(class="search-bar")
             form(
                 method="GET"
                 form-search
@@ -44,6 +42,12 @@ block content
                     placeholder="Tìm kiếm thể loại"
                     name="keyword"
                 )
+            a(
+                href=`${prefixAdmin}/topics/create`
+                class="btn-add"
+            )
+                i(class="fa fa-plus")
+                |  Thêm mới
 
         // TABLE
         table(class="table")
@@ -55,7 +59,6 @@ block content
                     th Mô tả
                     //- th Bài hát
                     th Trạng thái
-                    th Thời gian
                     th Thao tác
 
             tbody
@@ -68,7 +71,7 @@ block content
                                 width="60"
                             )
                         td #{item.title}
-                        td #{item.description}
+                        td !{item.description}
                         td 
                             if(item.status === "active")
                                 button(
@@ -82,9 +85,9 @@ block content
                                     id-status=item._id
                                     status = item.status
                                 ) Inactive
-                        td #{item.createAt}
                         td(class="action-btns")
-                            button(
+                            a(
+                                href=`${prefixAdmin}/topics/edit/${item._id}`
                                 class="btn-edit" 
                                 data-id=item._id 
                                 title="Sửa"
@@ -93,6 +96,7 @@ block content
                             button(
                                 class="btn-delete" 
                                 data-id=item._id 
+                                btn-delete
                                 title="Xóa"
                             )
                                 i(class="fa fa-trash")
@@ -102,4 +106,9 @@ block content
     form(
         action = `${prefixAdmin}/topics`
         id="form-get-path"
+    )
+    form(
+        action = `${prefixAdmin}/topics/delete`
+        method="POST"
+        id="form-delete"
     )
