@@ -5,14 +5,32 @@ import Song from "../../model/song.model";
 import Singer from "../../model/singer.model";
 
 import { systemConfig } from "../../config/system";
+import { search } from "../../helper/search";
+import { pagination } from "../../helper/pagination";
 
 // [GET] /admin/songs
 export const index = async (req: Request, res: Response) => {
-    const song = await Song.find({
-        deleted: false,
-    });
-    const idSinger = song.map(item =>{
-        if(item.singer_id != ""){
+    const find = {
+        deleted: false
+    }
+    // Phần trang
+    const count = await Song.countDocuments(find);
+    const objectPagination = pagination(req.query, count);
+    // Tìm kiếm
+    if (req.query.keyword) {
+        const objectSearch = search(req.query);
+        const nameSong = objectSearch.regex;
+        const textSlug = objectSearch.slug;
+        find["$or"] = [
+            { nameSong: nameSong },
+            { slug: textSlug }
+        ];
+    }
+    // Tìm tất cả bài hát
+    const song = await Song.find(find).skip(objectPagination.skip).limit(objectPagination.limit);
+    // Tìm thông tin ca sĩ từng bài
+    const idSinger = song.map(item => {
+        if (item.singer_id != "") {
             return item.singer_id;
         }
     });
@@ -30,7 +48,8 @@ export const index = async (req: Request, res: Response) => {
     });
     res.render("admin/page/song/index", {
         titlePage: "Thể loại",
-        songs: song
+        songs: song,
+        pagination: objectPagination
     });
 }
 
@@ -54,21 +73,21 @@ export const createPost = async (req: Request, res: Response) => {
     console.log(req.body)
     let avatar = "";
     let audio = "";
-    if(req.body.avatar){
+    if (req.body.avatar) {
         avatar = req.body.avatar[0];
     }
-    if(req.body.audio){
+    if (req.body.audio) {
         audio = req.body.audio[0];
     }
     interface song {
         nameSong: string;
-        singer_id ?: string;
-        avatar ?: string;
-        description ?: string;
-        topic_id ?: string;
-        releaseDate ?: string;
-        audio ?: string;
-        lyrics ?: string;
+        singer_id?: string;
+        avatar?: string;
+        description?: string;
+        topic_id?: string;
+        releaseDate?: string;
+        audio?: string;
+        lyrics?: string;
         status: string;
     };
     const data: song = {
@@ -92,7 +111,7 @@ export const edit = async (req: Request, res: Response) => {
     const song = await Song.findOne({
         _id: idSong
     });
-    if(!song){
+    if (!song) {
         return res.redirect(req.get("referer") || "/");
     }
     const singer = await Singer.find({
@@ -115,13 +134,13 @@ export const editPatch = async (req: Request, res: Response) => {
     const idSong: string = req.params.id.toString();
     interface song {
         nameSong: string;
-        singer_id ?: string;
-        avatar ?: string;
-        description ?: string;
-        topic_id ?: string;
-        releaseDate ?: string;
-        audio ?: string;
-        lyrics ?: string;
+        singer_id?: string;
+        avatar?: string;
+        description?: string;
+        topic_id?: string;
+        releaseDate?: string;
+        audio?: string;
+        lyrics?: string;
         status: string;
     };
     const data: song = {
@@ -133,10 +152,10 @@ export const editPatch = async (req: Request, res: Response) => {
         status: "active",
         lyrics: req.body.lyrics
     }
-    if(req.body.audio){
+    if (req.body.audio) {
         data["audio"] = req.body.audio[0];
     }
-    if(req.body.avatar){
+    if (req.body.avatar) {
         data["avatar"] = req.body.avatar[0];
     }
     await Song.updateOne({

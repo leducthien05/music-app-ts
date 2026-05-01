@@ -234,12 +234,20 @@ body {
   padding: 20px;
 }
 
+.search-bar {
+  display: flex;
+}
+
+.search-bar form {
+  display: flex;
+  flex: 1; /* để form chiếm hết */
+}
+
 .search-bar input {
   flex: 1;
   padding: 10px;
   border-radius: 15px;
-  border-color: #E8C49A;
-
+  border: 1px solid #E8C49A;
 }
 .search-bar button {
   border-radius: 15px;
@@ -492,4 +500,79 @@ button {
   input[name="tags"] {
     grid-column: span 1;
   }
+}
+
+/* Phân trang */
+.pagination {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-left: 0;
+  list-style: none;
+}
+.pagination .page-item {
+  margin: 0 4px;
+}
+.pagination .page-item {
+  display: inline-block;
+}
+
+.pagination .page-link {
+  display: block;
+  min-width: 36px;
+  text-align: center;
+
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+
+  background: #fff;
+  color: #333;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  cursor: pointer;
+
+  /* 🔥 reset button */
+  outline: none;
+}
+
+/* hover */
+.pagination .page-link:hover {
+  background: #f5f5f5;
+}
+
+/* active */
+.pagination .page-item.active .page-link {
+  background: #c58b3a;
+  border-color: #c58b3a;
+  color: #fff;
+}
+
+/* disabled */
+.pagination .page-item.disabled .page-link {
+  background: #eee;
+  color: #aaa;
+  cursor: not-allowed;
+}
+html, body {
+  height: 100%;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+}
+
+.pagination-wrapper {
+  margin-top: auto;
+  padding: 20px 0;
 }

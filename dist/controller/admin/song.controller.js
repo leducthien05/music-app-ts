@@ -17,10 +17,24 @@ const topics_model_1 = __importDefault(require("../../model/topics.model"));
 const song_model_1 = __importDefault(require("../../model/song.model"));
 const singer_model_1 = __importDefault(require("../../model/singer.model"));
 const system_1 = require("../../config/system");
+const search_1 = require("../../helper/search");
+const pagination_1 = require("../../helper/pagination");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const song = yield song_model_1.default.find({
-        deleted: false,
-    });
+    const find = {
+        deleted: false
+    };
+    const count = yield song_model_1.default.countDocuments(find);
+    const objectPagination = (0, pagination_1.pagination)(req.query, count);
+    if (req.query.keyword) {
+        const objectSearch = (0, search_1.search)(req.query);
+        const nameSong = objectSearch.regex;
+        const textSlug = objectSearch.slug;
+        find["$or"] = [
+            { nameSong: nameSong },
+            { slug: textSlug }
+        ];
+    }
+    const song = yield song_model_1.default.find(find).skip(objectPagination.skip).limit(objectPagination.limit);
     const idSinger = song.map(item => {
         if (item.singer_id != "") {
             return item.singer_id;
@@ -40,7 +54,8 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     });
     res.render("admin/page/song/index", {
         titlePage: "Thể loại",
-        songs: song
+        songs: song,
+        pagination: objectPagination
     });
 });
 exports.index = index;
