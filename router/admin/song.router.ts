@@ -29,5 +29,6 @@ router.patch(
     validator.createSong, 
     controller.editPatch
 );
+router.patch("/change-status/:status/:id", controller.changeStatus);
 
 export const RouterSong: Router = router;

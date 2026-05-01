@@ -576,3 +576,75 @@ html, body {
   margin-top: auto;
   padding: 20px 0;
 }
+
+/* filter singer and topic */
+.filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* style chung cho select */
+.filters select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  font-size: 14px;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* hover */
+.filters select:hover {
+  border-color: #999;
+}
+
+/* focus */
+.filters select:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74,144,226,0.15);
+}
+
+/* responsive mobile */
+@media (max-width: 600px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters select {
+    width: 100%;
+  }
+}
+
+.filter-wrapper {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap; /* giúp xuống dòng khi màn nhỏ */
+}
+
+/* tabs + filters không bị block riêng */
+.tabs,
+.filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* status tab */
+.tabs span {
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* select */
+.filters select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}

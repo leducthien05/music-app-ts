@@ -1,5 +1,7 @@
 extends ../../layout/default
 include ../../mixin/pagination.pug
+include ../../mixin/filterStatus.pug
+include ../../mixin/convertTime.pug
 
 block content
     div(class="dashboard")
@@ -25,14 +27,27 @@ block content
                 p Yêu thích
                 h2 15,703
                 span(class="down") ↓ 1.1%
+        div.filter-wrapper
+            +filterStatus
+            div.filters
+                //- Select Thể loại
+                select(name="topic" id="topic")
+                    option(value="") Tất cả thể loại
+                    each item in topic
+                        option(
+                            value=item.slug
+                        ) #{item.title}
 
-        // FILTER
-        div(class="tabs")
-            span(class="active") Tất cả
-            span Đã đăng
-            span Bản nháp
-            span Ẩn
-        
+                //- Select Ca sĩ
+                select(name="singer" id="singer")
+                    option(value="") Tất cả ca sĩ
+                    each item in singer
+                        option(
+                            value=item.slug
+                        ) #{item.nameSinger}
+                button(
+                    btn-clear
+                ) Clear
 
         // SEARCH
         div(class="search-bar")
@@ -62,7 +77,7 @@ block content
                     th Ca sĩ
                     th Mô tả
                     th Trạng thái
-                    th Thời gian
+                    th Phát hành
                     th Thao tác
 
             tbody
@@ -79,10 +94,19 @@ block content
                         td !{item.description}
                         td 
                             if(item.status === "active")
-                                span(class="status active") Active
+                                button(
+                                    class="status active"
+                                    id-status=item._id
+                                    status = item.status
+                                ) Active
                             else
-                                span(class="status inactive") Inactive
-                        td #{item.createAt}
+                                button(
+                                    status = item.status
+                                    class="status inactive"
+                                    id-status=item._id
+                                ) Inactive
+                        td 
+                            +date(item.releaseDate)
                         td(class="action-btns")
                             a(
                                 href=`${prefixAdmin}/songs/edit/${item._id}`
@@ -99,3 +123,8 @@ block content
                                 i(class="fa fa-trash")
     .pagination-wrapper
         +pagination
+
+    form(
+        action = `${prefixAdmin}/songs`
+        id="form-get-path"
+    )

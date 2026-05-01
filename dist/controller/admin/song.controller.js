@@ -12,17 +12,42 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.editPatch = exports.edit = exports.createPost = exports.create = exports.index = void 0;
+exports.changeStatus = exports.editPatch = exports.edit = exports.createPost = exports.create = exports.index = void 0;
 const topics_model_1 = __importDefault(require("../../model/topics.model"));
 const song_model_1 = __importDefault(require("../../model/song.model"));
 const singer_model_1 = __importDefault(require("../../model/singer.model"));
 const system_1 = require("../../config/system");
 const search_1 = require("../../helper/search");
 const pagination_1 = require("../../helper/pagination");
+const filterStatus_1 = require("../../helper/filterStatus");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const find = {
         deleted: false
     };
+    const filter = (0, filterStatus_1.filterStatus)(req.query);
+    if (req.query.status) {
+        find["status"] = req.query.status;
+    }
+    if (req.query.topic) {
+        const slug = req.query.topic.toString();
+        const topic = yield topics_model_1.default.findOne({
+            deleted: false,
+            slug: slug
+        });
+        if (topic) {
+            find["topic_id"] = topic.id;
+        }
+    }
+    if (req.query.singer) {
+        const slug = req.query.singer.toString();
+        const singer = yield singer_model_1.default.findOne({
+            deleted: false,
+            slug: slug
+        });
+        if (singer) {
+            find["singer_id"] = singer.id;
+        }
+    }
     const count = yield song_model_1.default.countDocuments(find);
     const objectPagination = (0, pagination_1.pagination)(req.query, count);
     if (req.query.keyword) {
@@ -52,10 +77,19 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     song.forEach(item => {
         item["nameSinger"] = singerMap[item.singer_id.toString()];
     });
+    const singerAll = yield singer_model_1.default.find({
+        deleted: false,
+    }).select("nameSinger slug");
+    const topicAll = yield topics_model_1.default.find({
+        deleted: false
+    });
     res.render("admin/page/song/index", {
         titlePage: "Thể loại",
         songs: song,
-        pagination: objectPagination
+        pagination: objectPagination,
+        filterStatus: filter,
+        singer: singerAll,
+        topic: topicAll
     });
 });
 exports.index = index;
@@ -146,3 +180,20 @@ const editPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.redirect(`${system_1.systemConfig.prefixAdmin}/songs`);
 });
 exports.editPatch = editPatch;
+const changeStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const status = req.params.status.toString();
+    const id = req.params.id.toString();
+    yield song_model_1.default.updateOne({
+        _id: id
+    }, {
+        $set: {
+            status: status
+        }
+    });
+    res.json({
+        code: 200,
+        message: "Cập nhật thành công",
+        status: status
+    });
+});
+exports.changeStatus = changeStatus;

@@ -1,0 +1,9 @@
+mixin filterStatus 
+    // FILTER
+    div(class="tabs")
+        each item in filterStatus 
+            span(
+                status = item.status
+                class= item.class
+            ) #{item.name}
+        

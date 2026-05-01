@@ -1,5 +1,5 @@
 extends ../../layout/default
-
+include ../../mixin/pagination.pug
 block content
     div(class="dashboard")
 
@@ -34,11 +34,16 @@ block content
 
         // SEARCH
         div(class="search-bar")
-            input(
-                type="text", 
-                placeholder="Tìm kiếm thể loại"
-                name="keyword"
+            form(
+                method="GET"
+                form-search
+                
             )
+                input(
+                    type="text", 
+                    placeholder="Tìm kiếm thể loại"
+                    name="keyword"
+                )
 
         // TABLE
         table(class="table")
@@ -66,9 +71,17 @@ block content
                         td #{item.description}
                         td 
                             if(item.status === "active")
-                                span(class="status active") Active
+                                button(
+                                    class="status active"
+                                    id-status=item._id
+                                    status = item.status
+                                ) Active
                             else
-                                span(class="status inactive") Inactive
+                                button(
+                                    class="status inactive"
+                                    id-status=item._id
+                                    status = item.status
+                                ) Inactive
                         td #{item.createAt}
                         td(class="action-btns")
                             button(
@@ -83,3 +96,10 @@ block content
                                 title="Xóa"
                             )
                                 i(class="fa fa-trash")
+    .pagination-wrapper
+        +pagination
+
+    form(
+        action = `${prefixAdmin}/topics`
+        id="form-get-path"
+    )

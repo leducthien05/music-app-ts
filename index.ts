@@ -7,6 +7,9 @@ const app: Express = express();
 const port: number | string = process.env.PORT || 8000;
 // connect Database
 database.connect();
+// Moment
+import moment from "moment";
+app.locals.moment = moment;
 // req.body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

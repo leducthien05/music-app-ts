@@ -14,13 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.index = void 0;
 const topics_model_1 = __importDefault(require("../../model/topics.model"));
+const search_1 = require("../../helper/search");
+const pagination_1 = require("../../helper/pagination");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const topic = yield topics_model_1.default.find({
+    const find = {
         deleted: false
-    });
+    };
+    const count = yield topics_model_1.default.countDocuments(find);
+    const objectPagination = (0, pagination_1.pagination)(req.query, count);
+    if (req.query.keyword) {
+        const objectSearch = (0, search_1.search)(req.query);
+        const nameSong = objectSearch.regex;
+        const textSlug = objectSearch.slug;
+        find["$or"] = [
+            { nameSong: nameSong },
+            { slug: textSlug }
+        ];
+    }
+    const topic = yield topics_model_1.default.find(find).skip(objectPagination.skip).limit(objectPagination.limit);
     res.render("admin/page/topic/index", {
         titlePage: "Thể loại",
-        topics: topic
+        topics: topic,
+        pagination: objectPagination
     });
 });
 exports.index = index;

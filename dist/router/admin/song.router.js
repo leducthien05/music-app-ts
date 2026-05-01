@@ -55,4 +55,5 @@ router.patch("/edit/:id", upload.fields([
     { name: "avatar", maxCount: 1 },
     { name: "audio", maxCount: 1 }
 ]), uploadCloud.uploadMulti, validator.createSong, controller.editPatch);
+router.patch("/change-status/:status/:id", controller.changeStatus);
 exports.RouterSong = router;
