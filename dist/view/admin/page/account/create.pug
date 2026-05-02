@@ -1,0 +1,84 @@
+extends ../../layout/default
+
+block content    
+    div(class="dashboard-form")
+        form(
+            class="form-add-song" 
+            method="POST" 
+            action=`${prefixAdmin}/accounts/create` 
+            enctype="multipart/form-data"
+        )
+            
+            // ===== THÔNG TIN CƠ BẢN =====
+            .card
+                h3(class="card-title") 🎵 Thông tin cơ bản
+
+                .form-grid
+                    .form-group
+                        label Họ và Tên *
+                        input(
+                            type="text" 
+                            name="fullName" 
+                            placeholder="VD: Lê Văn A"
+                        )
+                    .form-group
+                        label Email *
+                        input(
+                            type="text" 
+                            name="email" 
+                            placeholder="VD: exam@gmail.com"
+                        )
+                    .form-group
+                        label Mật khẩu *
+                        input(
+                            type="password" 
+                            name="password" 
+                        )
+                    .form-group
+                        label Quyền
+                        select(name="role_id")
+                            option(value="" selected = true) Quyền
+                            //- each item in singer 
+                            //-     option(value=item._id) #{item.nameSinger}
+            // ===== MEDIA =====
+            .card
+                h3.card-title 🖼️ Hình ảnh 
+
+                .form-grid
+                    .upload-box
+                        label Hình ảnh đại diện *
+                        input(
+                            type="file" 
+                            name="avatar"
+                        )
+
+            // ===== CÀI ĐẶT =====
+            .card
+                h3.card-title ⚙️ Cài đặt xuất bản
+
+                .form-grid
+                    .form-group
+                        label Trạng thái *
+                        .radio-group
+                            label
+                                input(
+                                    type="radio" 
+                                    name="status" 
+                                    value="active" 
+                                    checked
+                                )
+                                |  Hoạt động
+                            label
+                                input(
+                                    type="radio"
+                                    name="status"
+                                    value="inactive"
+                                )
+                                |  Ngừng hoạt động
+            // ===== ACTION =====
+            .form-actions
+                button(
+                    class="btn-submit"
+                    type="submit"
+                ) + Thêm tài khoản
+    script(src="/admin/JS/script.js") 

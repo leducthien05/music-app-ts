@@ -1,0 +1,64 @@
+extends ../../layout/default
+
+block content    
+    div(class="dashboard-form")
+        form(
+            class="form-add-song" 
+            method="POST" 
+            action=`${prefixAdmin}/roles/edit/${role._id}?_method=PATCH` 
+            enctype="multipart/form-data"
+        )
+            
+            // ===== THÔNG TIN CƠ BẢN =====
+            .card
+                h3(class="card-title") Thông tin cơ bản
+
+                .form-grid
+                    .form-group
+                        label Tiêu đề *
+                        input(
+                            type="text" 
+                            name="title" 
+                            placeholder="VD: Quản trị viên"
+                            value = role.title
+                        )
+                .form-group
+                    label Mô tả *
+                    textarea(
+                        class="tinymce"
+                        name="description" 
+                        placeholder="Mô tả ngắn về nhóm quyền..." 
+                        rows="4"
+                    ) !{role.description}
+            // ===== CÀI ĐẶT =====
+            .card
+                h3.card-title ⚙️ Cài đặt 
+
+                .form-grid
+                    .form-group
+                        label Trạng thái *
+                        .radio-group
+                            label
+                                input(
+                                    type="radio" 
+                                    name="status" 
+                                    value="active" 
+                                    checked = (role.status == "active" ? true : false)
+                                )
+                                |  Hoạt động
+                            label
+                                input(
+                                    type="radio"
+                                    name="status"
+                                    value="inactive"
+                                    checked = (role.status == "inactive" ? true : false)
+                                )
+                                |  Ngừng hoạt động
+
+            // ===== ACTION =====
+            .form-actions
+                button(
+                    class="btn-submit"
+                    type="submit"
+                ) + Cập nhật nhóm quyền
+    script(src="/admin/JS/script.js") 

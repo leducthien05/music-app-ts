@@ -120,8 +120,9 @@ if (btnClear) {
 
 // Xóa
 const formDelte = document.querySelector("#form-delete");
-const path = formDelte.action;
 if (formDelte) {
+    const path = formDelte.action;
+
     const btnDelete = document.querySelectorAll("[btn-delete]");
     if (btnDelete.length > 0) {
         btnDelete.forEach(btn => {

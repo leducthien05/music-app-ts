@@ -5,28 +5,6 @@ include ../../mixin/filterStatus.pug
 block content
     div(class="dashboard")
 
-        // STAT CARDS
-        div(class="stats")
-            div(class="card")
-                p Tổng bài hát
-                h2 1,248
-                span(class="up") ↑ 12 bài tuần này
-
-            div(class="card")
-                p Lượt nghe hôm nay
-                h2 8,462
-                span(class="up") ↑ 5.2%
-
-            div(class="card")
-                p Người dùng
-                h2 3,891
-                span(class="up") ↑ 24
-
-            div(class="card")
-                p Yêu thích
-                h2 15,703
-                span(class="down") ↓ 1.1%
-
         // FILTER
         +filterStatus
 
@@ -35,37 +13,36 @@ block content
             form(
                 method="GET"
                 form-search
-                
             )
                 input(
                     type="text", 
-                    placeholder="Tìm kiếm người dùng"
+                    placeholder="Tìm kiếm tài khoản"
                     name="keyword"
                     value=keyword
                 )
+            a(
+                href=`${prefixAdmin}/roles/create`
+                class="btn-add"
+            )
+                i(class="fa fa-plus")
+                |  Thêm mới
 
         // TABLE
         table(class="table")
             thead
                 tr
                     th STT
-                    th Hình ảnh
-                    th Họ và tên
-                    th Email
+                    th Tiêu đề
+                    th Mô tả
                     th Trạng thái
                     th Thao tác
 
             tbody
-                each item, index in user
+                each item, index in role
                     tr
                         td #{index + 1}
-                        td  
-                            img(
-                                src=item.avatar
-                                width="60"
-                            )
-                        td #{item.fullName}
-                        td !{item.email}
+                        td #{item.title}
+                        td !{item.description}
                         td 
                             if(item.status === "active")
                                 button(
@@ -87,15 +64,22 @@ block content
                                 title="Xóa"
                             )
                                 i(class="fa fa-trash")
+                            a(
+                                href=`${prefixAdmin}/roles/edit/${item._id}`
+                                class="btn-edit" 
+                                data-id=item._id 
+                                title="Sửa"
+                            )
+                                i(class="fa fa-pen")
     .pagination-wrapper
         +pagination
 
     form(
-        action = `${prefixAdmin}/users`
+        action = `${prefixAdmin}/roles`
         id="form-get-path"
     )
     form(
-        action = `${prefixAdmin}/users/delete`
+        action = `${prefixAdmin}/roles/delete`
         method="POST"
         id="form-delete"
     )

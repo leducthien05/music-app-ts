@@ -35,14 +35,19 @@ block content
             form(
                 method="GET"
                 form-search
-                
             )
                 input(
                     type="text", 
-                    placeholder="Tìm kiếm người dùng"
+                    placeholder="Tìm kiếm tài khoản"
                     name="keyword"
                     value=keyword
                 )
+            a(
+                href=`${prefixAdmin}/accounts/create`
+                class="btn-add"
+            )
+                i(class="fa fa-plus")
+                |  Thêm mới
 
         // TABLE
         table(class="table")
@@ -52,11 +57,12 @@ block content
                     th Hình ảnh
                     th Họ và tên
                     th Email
+                    //- th Quyền
                     th Trạng thái
                     th Thao tác
 
             tbody
-                each item, index in user
+                each item, index in account
                     tr
                         td #{index + 1}
                         td  
@@ -91,11 +97,11 @@ block content
         +pagination
 
     form(
-        action = `${prefixAdmin}/users`
+        action = `${prefixAdmin}/accounts`
         id="form-get-path"
     )
     form(
-        action = `${prefixAdmin}/users/delete`
+        action = `${prefixAdmin}/accounts/delete`
         method="POST"
         id="form-delete"
     )

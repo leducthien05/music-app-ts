@@ -15,6 +15,7 @@ div(class="sidebar")
         a(
             href=`${prefixAdmin}/songs`
             class="menu-item"
+            id="menu-item"
         )
             i(class="fa fa-music")
             span Bài hát
@@ -22,6 +23,7 @@ div(class="sidebar")
         a(
             href=`${prefixAdmin}/singers`
             class="menu-item"
+            id="menu-item"
         )
             i(class="fa fa-user")
             span Nghệ sĩ
@@ -29,6 +31,7 @@ div(class="sidebar")
         a(
             href=`${prefixAdmin}/topics`
             class="menu-item"
+            id="menu-item"
         )
             i(class="fa fa-list")
             span Thể loại
@@ -36,22 +39,47 @@ div(class="sidebar")
         a(
             href=`${prefixAdmin}/users`
             class="menu-item"
+            id="menu-item"
         )
             i(class="fa fa-users")
             span Người dùng
+
+        h4 Quản lý
+        a(
+            href=`${prefixAdmin}/accounts`
+            class="menu-item"
+            id="menu-item"
+        )
+            i(class="fa fa-user-shield")
+            span Tài khoản
+        a(
+            href=`${prefixAdmin}/roles`
+            class="menu-item"
+            id="menu-item"
+        )
+            i(class="fa fa-users-cog")
+            span Nhóm quyền
+        a(
+            href=`${prefixAdmin}/roles/permission`
+            class="menu-item permission-sidebar"
+        )
+            i(class="fa fa-key")
+            span Phân quyền
 
         h4 Hệ thống
         a(
             href=`${prefixAdmin}/setting-general`
             class="menu-item"
+            id="menu-item"
         )
             i(class="fa fa-cog")
             span Cài đặt
 
-    div(class="sidebar-footer")
-        div(class="avatar") AD
-        div
-            p Admin
-            small admin@songnhac.vn
+    a(href=`${prefixAdmin}/info`, class="sidebar-link")
+        .sidebar-footer
+            .avatar AD
+            div
+                p Admin
+                small admin@songnhac.vn
 
     script(src="/admin/JS/sidebar.js") 

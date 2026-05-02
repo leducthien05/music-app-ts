@@ -24,8 +24,12 @@ html {
 }
 .layout {
   display: flex;
-  height: 100vh; /* 🔥 QUAN TRỌNG */
-  overflow: hidden;
+  height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
 }
 body {
   font-size: 1rem; 
@@ -46,9 +50,12 @@ body {
   padding: 20px 16px;
   border-right: 1px solid #eee;
   position: fixed;
-  display: flex;  
+
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  overflow-y: auto; /* ⭐ cho phép cuộn */
 }
 
 /* ===== LOGO ===== */
@@ -648,3 +655,103 @@ html, body {
     border-radius: 8px;
     border: 1px solid #ddd;
 }
+
+/* info */
+.sidebar-footer a {
+  color: inherit;       /* lấy màu từ cha */
+  text-decoration: none; /* bỏ gạch chân */
+}
+.sidebar-link {
+  color: #878175;
+  text-decoration: none;
+  display: block;
+}
+
+/* Permission */
+/* ===== PERMISSION PAGE ===== */
+.permission-page {
+  padding: 10px 20px 10px 0px;
+}
+
+/* TITLE */
+.permission-title {
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 20px;
+}
+
+/* ACTION */
+.permission-action {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+/* BUTTON giống hệ thống */
+.btn-permission {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 500;
+}
+
+.btn-permission:hover {
+  background: #a8742f;
+}
+
+/* WRAP TABLE */
+.permission-wrapper {
+  background: #fff;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* TABLE OVERRIDE nhẹ */
+.permission-table {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.permission-table th {
+  background: var(--cream);
+  text-align: center;
+  font-weight: 600;
+}
+
+.permission-table td,
+.permission-table th {
+  padding: 12px;
+
+}
+
+/* GROUP TITLE */
+.permission-table .group td {
+  background: #f7f2ea;
+  font-weight: 600;
+  color: var(--brown);
+}
+
+/* CHECKBOX CENTER */
+.permission-table td.text-center {
+  text-align: center;
+}
+
+/* CHECKBOX STYLE đẹp hơn */
+.permission-table input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+/* hover row */
+.permission-table tbody tr:hover {
+  background: #faf7f2;
+}
+.d-none {
+  display: none;
+}
+
+/* ===== ROLE TABLE ===== */
