@@ -6,6 +6,7 @@ import { RouterTopic } from "./topic.router";
 import { RouterSong } from "./song.router";
 import { RouterUpload } from "./upload.router";
 import { RouterSinger } from "./singer.router";
+import { RouterUser } from "./user.router";
 
 export const indexRouterAdmin = (app: Express) =>{
     app.use(`${systemConfig.prefixAdmin}/dashboard`, RouterDashboard);
@@ -13,5 +14,5 @@ export const indexRouterAdmin = (app: Express) =>{
     app.use(`${systemConfig.prefixAdmin}/songs`, RouterSong);
     app.use(`${systemConfig.prefixAdmin}/upload`, RouterUpload);
     app.use(`${systemConfig.prefixAdmin}/singers`, RouterSinger);
-
+    app.use(`${systemConfig.prefixAdmin}/users`, RouterUser);
 }
