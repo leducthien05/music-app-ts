@@ -1,62 +1,63 @@
 extends ../../layout/default
 
 block content    
-    div(class="dashboard-form")
-        form(
-            class="form-add-song" 
-            method="POST" 
-            action=`${prefixAdmin}/roles/create` 
-            enctype="multipart/form-data"
-        )
-            
-            // ===== THÔNG TIN CƠ BẢN =====
-            .card
-                h3(class="card-title") Thông tin cơ bản
+    if(roleAccount.permission.includes("roles_create"))
+        div(class="dashboard-form")
+            form(
+                class="form-add-song" 
+                method="POST" 
+                action=`${prefixAdmin}/roles/create` 
+                enctype="multipart/form-data"
+            )
+                
+                // ===== THÔNG TIN CƠ BẢN =====
+                .card
+                    h3(class="card-title") Thông tin cơ bản
 
-                .form-grid
+                    .form-grid
+                        .form-group
+                            label Tiêu đề *
+                            input(
+                                type="text" 
+                                name="title" 
+                                placeholder="VD: Quản trị viên"
+                            )
                     .form-group
-                        label Tiêu đề *
-                        input(
-                            type="text" 
-                            name="title" 
-                            placeholder="VD: Quản trị viên"
+                        label Mô tả *
+                        textarea(
+                            class="tinymce"
+                            name="description" 
+                            placeholder="Mô tả ngắn về nhóm quyền..." 
+                            rows="4"
                         )
-                .form-group
-                    label Mô tả *
-                    textarea(
-                        class="tinymce"
-                        name="description" 
-                        placeholder="Mô tả ngắn về nhóm quyền..." 
-                        rows="4"
-                    )
-            // ===== CÀI ĐẶT =====
-            .card
-                h3.card-title ⚙️ Cài đặt 
+                // ===== CÀI ĐẶT =====
+                .card
+                    h3.card-title ⚙️ Cài đặt 
 
-                .form-grid
-                    .form-group
-                        label Trạng thái *
-                        .radio-group
-                            label
-                                input(
-                                    type="radio" 
-                                    name="status" 
-                                    value="active" 
-                                    checked
-                                )
-                                |  Hoạt động
-                            label
-                                input(
-                                    type="radio"
-                                    name="status"
-                                    value="inactive"
-                                )
-                                |  Ngừng hoạt động
+                    .form-grid
+                        .form-group
+                            label Trạng thái *
+                            .radio-group
+                                label
+                                    input(
+                                        type="radio" 
+                                        name="status" 
+                                        value="active" 
+                                        checked
+                                    )
+                                    |  Hoạt động
+                                label
+                                    input(
+                                        type="radio"
+                                        name="status"
+                                        value="inactive"
+                                    )
+                                    |  Ngừng hoạt động
 
-            // ===== ACTION =====
-            .form-actions
-                button(
-                    class="btn-submit"
-                    type="submit"
-                ) + Thêm nhóm quyền
-    script(src="/admin/JS/script.js") 
+                // ===== ACTION =====
+                .form-actions
+                    button(
+                        class="btn-submit"
+                        type="submit"
+                    ) + Thêm nhóm quyền
+        script(src="/admin/JS/script.js") 

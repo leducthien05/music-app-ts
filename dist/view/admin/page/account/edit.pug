@@ -1,16 +1,16 @@
-extends ../../layout/default
+extends ../../layout/default.pug
 
-block content 
-    if(roleAccount.permission.includes("accounts_create"))
+block content   
+    if(roleAccount.permission.includes("accounts_edit"))
         div(class="dashboard-form")
             form(
                 class="form-add-song" 
                 method="POST" 
-                action=`${prefixAdmin}/accounts/create` 
+                action=`${prefixAdmin}/accounts/edit/${account._id}?_method=PATCH` 
                 enctype="multipart/form-data"
             )
                 
-                // ===== THÔNG TIN CƠ BẢN =====
+                //- // ===== THÔNG TIN CƠ BẢN =====
                 .card
                     h3(class="card-title") 🎵 Thông tin cơ bản
 
@@ -20,6 +20,7 @@ block content
                             input(
                                 type="text" 
                                 name="fullName" 
+                                value = account.fullName
                                 placeholder="VD: Lê Văn A"
                             )
                         .form-group
@@ -27,6 +28,7 @@ block content
                             input(
                                 type="text" 
                                 name="email" 
+                                value = account.email
                                 placeholder="VD: exam@gmail.com"
                             )
                         .form-group
@@ -40,7 +42,10 @@ block content
                             select(name="role_id")
                                 option(value="" selected = true) Quyền
                                 each item in role 
-                                    option(value=item._id) #{item.title}
+                                    option(
+                                        value=item._id 
+                                        selected = (item.id == account.role_id) ? true : false
+                                    ) #{item.title}
                 // ===== MEDIA =====
                 .card
                     h3.card-title 🖼️ Hình ảnh 
@@ -51,6 +56,10 @@ block content
                             input(
                                 type="file" 
                                 name="avatar"
+                            )
+                            img(
+                                src = account.avatar
+                                width="100"
                             )
 
                 // ===== CÀI ĐẶT =====
@@ -66,7 +75,7 @@ block content
                                         type="radio" 
                                         name="status" 
                                         value="active" 
-                                        checked
+                                        checked = (account.status == "active" ? true : false)
                                     )
                                     |  Hoạt động
                                 label
@@ -74,9 +83,10 @@ block content
                                         type="radio"
                                         name="status"
                                         value="inactive"
+                                        checked = (account.status == "inactive" ? true : false)
                                     )
                                     |  Ngừng hoạt động
-                // ===== ACTION =====
+                //- // ===== ACTION =====
                 .form-actions
                     button(
                         class="btn-submit"

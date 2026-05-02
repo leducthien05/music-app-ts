@@ -1,144 +1,144 @@
 extends ../../layout/default
 
-block content    
-    div(class="dashboard-form")
-        form(
-            class="form-add-song" 
-            method="POST" 
-            action=`${prefixAdmin}/songs/edit/${song._id}?_method=PATCH`
-            enctype="multipart/form-data"
-        )
-            
-            // ===== THÔNG TIN CƠ BẢN =====
-            .card
-                h3(class="card-title") 🎵 Thông tin cơ bản
+block content 
+    if(roleAccount.permission.includes("songs_edit"))   
+        div(class="dashboard-form")
+            form(
+                class="form-add-song" 
+                method="POST" 
+                action=`${prefixAdmin}/songs/edit/${song._id}?_method=PATCH`
+                enctype="multipart/form-data"
+            )
+                
+                // ===== THÔNG TIN CƠ BẢN =====
+                .card
+                    h3(class="card-title") 🎵 Thông tin cơ bản
 
-                .form-grid
+                    .form-grid
+                        .form-group
+                            label Tên bài hát *
+                            input(
+                                type="text" 
+                                name= "nameSong"
+                                value=song.nameSong
+                                placeholder="VD: Chill Vibes"
+                            )
+
+                        .form-group
+                            label Ca sĩ / Nghệ sĩ *
+                            select(name="singer_id")
+                                option(value="" selected = true) Chọn nghệ sĩ
+                                each item in singer 
+                                    option(
+                                        value=item._id
+                                        selected = (song.singer_id == item._id ? true : false)
+                                    ) #{item.nameSinger}
+
+                        .form-group
+                            label Thể loại *
+                            select(name="topic_id")
+                                option(value="" selected = true) Chọn thể loại
+                                each item in topic 
+                                    option(
+                                        value=item._id
+                                        selected = (song.topic_id == item._id ? true : false)
+                                    ) #{item.title}
                     .form-group
-                        label Tên bài hát *
-                        input(
-                            type="text" 
-                            name= "nameSong"
-                            value=song.nameSong
-                            placeholder="VD: Chill Vibes"
-                        )
+                        label Mô tả *
+                        textarea(
+                            class="tinymce"
+                            name="description" 
+                            placeholder="Mô tả ngắn về bài hát..." 
+                            rows="4"
+                        ) !{song.description}
+                // ===== MEDIA =====
+                .card
+                    h3.card-title 🖼️ Hình ảnh & Âm thanh
 
+                    .form-grid
+                        .upload-box
+                            label Hình ảnh bìa *
+                            input(
+                                type="file" 
+                                name="avatar"
+                            )
+                            img(
+                                src=song.avatar
+                            )
+
+                        .upload-box
+                            label File âm thanh *
+                            input(
+                                type="file" 
+                                name="audio"
+                            )
+                            audio(
+                                src=song.audio
+                                controls
+                            )
+
+                // ===== CÀI ĐẶT =====
+                .card
+                    h3.card-title ⚙️ Cài đặt xuất bản
+
+                    .form-grid
+                        .form-group
+                            label Trạng thái *
+                            .radio-group
+                                label
+                                    input(
+                                        type="radio" 
+                                        name="status" 
+                                        value="active" 
+                                        checked = (song.status == "active" ? true : false)
+                                    )
+                                    |  Đã đăng
+                                label
+                                    input(
+                                        type="radio" 
+                                        name="status" 
+                                        value="draft"
+                                        checked = (song.status == "draft" ? true : false)
+                                    )
+                                    |  Bản nháp
+                                label
+                                    input(
+                                        type="radio"
+                                        name="status"
+                                        value="inactive"
+                                        checked = (song.status == "inactive" ? true : false)
+                                    )
+                                    |  Ẩn
+
+                        .form-group
+                            label Ngày phát hành
+                            input(
+                                type="date" 
+                                id="dateInput"
+                                name="releaseDate"
+                                value = song.releaseDate.toISOString().split("T")[0] : ""
+                            )
+    
                     .form-group
-                        label Ca sĩ / Nghệ sĩ *
-                        select(name="singer_id")
-                            option(value="" selected = true) Chọn nghệ sĩ
-                            each item in singer 
-                                option(
-                                    value=item._id
-                                    selected = (song.singer_id == item._id ? true : false)
-                                ) #{item.nameSinger}
+                        label Lời bài hát
+                        textarea(
+                            name="lyrics" 
+                            rows="10" 
+                            placeholder="Dán lời bài hát vào đây..."
+                        ) !{song.lyrics}
 
-                    .form-group
-                        label Thể loại *
-                        select(name="topic_id")
-                            option(value="" selected = true) Chọn thể loại
-                            each item in topic 
-                                option(
-                                    value=item._id
-                                    selected = (song.topic_id == item._id ? true : false)
-                                ) #{item.title}
-                .form-group
-                    label Mô tả *
-                    textarea(
-                        class="tinymce"
-                        name="description" 
-                        placeholder="Mô tả ngắn về bài hát..." 
-                        rows="4"
-                    ) !{song.description}
-            // ===== MEDIA =====
-            .card
-                h3.card-title 🖼️ Hình ảnh & Âm thanh
-
-                .form-grid
-                    .upload-box
-                        label Hình ảnh bìa *
-                        input(
-                            type="file" 
-                            name="avatar"
-                        )
-                        img(
-                            src=song.avatar
-                        )
-
-                    .upload-box
-                        label File âm thanh *
-                        input(
-                            type="file" 
-                            name="audio"
-                        )
-                        audio(
-                            src=song.audio
-                            controls
-                        )
-
-            // ===== CÀI ĐẶT =====
-            .card
-                h3.card-title ⚙️ Cài đặt xuất bản
-
-                .form-grid
-                    .form-group
-                        label Trạng thái *
-                        .radio-group
-                            label
-                                input(
-                                    type="radio" 
-                                    name="status" 
-                                    value="active" 
-                                    checked = (song.status == "active" ? true : false)
-                                )
-                                |  Đã đăng
-                            label
-                                input(
-                                    type="radio" 
-                                    name="status" 
-                                    value="draft"
-                                    checked = (song.status == "draft" ? true : false)
-                                )
-                                |  Bản nháp
-                            label
-                                input(
-                                    type="radio"
-                                    name="status"
-                                    value="inactive"
-                                    checked = (song.status == "inactive" ? true : false)
-                                )
-                                |  Ẩn
-
-                    .form-group
-                        label Ngày phát hành
-                        input(
-                            type="date" 
-                            id="dateInput"
-                            name="releaseDate"
-                            value = song.releaseDate.toISOString().split("T")[0] : ""
-                        )
-  
-                .form-group
-                    label Lời bài hát
-                    textarea(
-                        name="lyrics" 
-                        rows="10" 
-                        placeholder="Dán lời bài hát vào đây..."
-                    ) !{song.lyrics}
-
-            // ===== ACTION =====
-            .form-actions
-                button(
-                    class="btn-reset" 
-                    type="reset"
-                ) Làm mới
-                button(
-                    class="btn-draft" 
-                    type="submit" 
-                    name="draft"
-                ) Lưu nháp
-                button(
-                    class="btn-submit"
-                    type="submit"
-                ) + Lưu chỉnh sửa
-    script(src="/admin/JS/script.js") 
+                // ===== ACTION =====
+                .form-actions
+                    button(
+                        class="btn-reset" 
+                        type="reset"
+                    ) Làm mới
+                    button(
+                        class="btn-draft" 
+                        type="submit" 
+                        name="draft"
+                    ) Lưu nháp
+                    button(
+                        class="btn-submit"
+                        type="submit"
+                    ) + Lưu chỉnh sửa

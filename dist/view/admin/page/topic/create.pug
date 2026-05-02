@@ -1,78 +1,78 @@
 extends ../../layout/default
 
-block content    
-    div(class="dashboard-form")
-        form(
-            class="form-add-song" 
-            method="POST" 
-            action=`${prefixAdmin}/topics/create`
-            enctype="multipart/form-data"
-        )
-            
-            // ===== THÔNG TIN CƠ BẢN =====
-            .card
-                h3(class="card-title") Thông tin cơ bản
+block content   
+    if(roleAccount.permission.includes("topics_create")) 
+        div(class="dashboard-form")
+            form(
+                class="form-add-song" 
+                method="POST" 
+                action=`${prefixAdmin}/topics/create`
+                enctype="multipart/form-data"
+            )
+                
+                // ===== THÔNG TIN CƠ BẢN =====
+                .card
+                    h3(class="card-title") Thông tin cơ bản
 
-                .form-grid
+                    .form-grid
+                        .form-group
+                            label Tên thể loại *
+                            input(
+                                type="text" 
+                                name="title" 
+                                placeholder="VD: POP"
+                            )
                     .form-group
-                        label Tên thể loại *
-                        input(
-                            type="text" 
-                            name="title" 
-                            placeholder="VD: POP"
+                        label Mô tả *
+                        textarea(
+                            class="tinymce"
+                            name="description" 
+                            placeholder="Mô tả ngắn về bài hát..." 
+                            rows="4"
                         )
-                .form-group
-                    label Mô tả *
-                    textarea(
-                        class="tinymce"
-                        name="description" 
-                        placeholder="Mô tả ngắn về bài hát..." 
-                        rows="4"
-                    )
-            // ===== MEDIA =====
-            .card
-                h3.card-title 🖼️ Hình ảnh 
+                // ===== MEDIA =====
+                .card
+                    h3.card-title 🖼️ Hình ảnh 
 
-                .form-grid
-                    .upload-box
-                        label Hình ảnh bìa *
-                        input(
-                            type="file" 
-                            name="avatar"
-                        )
+                    .form-grid
+                        .upload-box
+                            label Hình ảnh bìa *
+                            input(
+                                type="file" 
+                                name="avatar"
+                            )
 
-            // ===== CÀI ĐẶT =====
-            .card
-                h3.card-title ⚙️ Cài đặt 
+                // ===== CÀI ĐẶT =====
+                .card
+                    h3.card-title ⚙️ Cài đặt 
 
-                .form-grid
-                    .form-group
-                        label Trạng thái *
-                        .radio-group
-                            label
-                                input(
-                                    type="radio" 
-                                    name="status" 
-                                    value="active" 
-                                    checked
-                                )
-                                |  Hoạt động
-                            label
-                                input(
-                                    type="radio"
-                                    name="status"
-                                    value="inactive"
-                                )
-                                |  Ẩn
+                    .form-grid
+                        .form-group
+                            label Trạng thái *
+                            .radio-group
+                                label
+                                    input(
+                                        type="radio" 
+                                        name="status" 
+                                        value="active" 
+                                        checked
+                                    )
+                                    |  Hoạt động
+                                label
+                                    input(
+                                        type="radio"
+                                        name="status"
+                                        value="inactive"
+                                    )
+                                    |  Ẩn
 
-            // ===== ACTION =====
-            .form-actions
-                button(
-                    class="btn-reset" 
-                    type="reset"
-                ) Làm mới
-                button(
-                    class="btn-submit"
-                    type="submit"
-                ) + Thêm thể loại
-    script(src="/admin/JS/script.js") 
+                // ===== ACTION =====
+                .form-actions
+                    button(
+                        class="btn-reset" 
+                        type="reset"
+                    ) Làm mới
+                    button(
+                        class="btn-submit"
+                        type="submit"
+                    ) + Thêm thể loại

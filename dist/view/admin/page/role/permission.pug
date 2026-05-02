@@ -3,165 +3,167 @@ include ../../mixin/pagination.pug
 include ../../mixin/pagination.pug
 include ../../mixin/filterStatus.pug
 block content
-    div(
-        class="d-none"
-        data-role = role
-    )
-    .permission-page
-        .form-actions
-            button(
-                class="btn-submit" 
-                type="button" 
-                button-submit
-            )
-                | Cập nhật
-        .permission-box
-            h3.card-title Chọn nhóm quyền
+    if(roleAccount.permission.includes("permission_view"))
+        div(
+            class="d-none"
+            data-role = role
+        )
+        .permission-page
+            .form-actions
+                button(
+                    class="btn-submit" 
+                    type="button" 
+                    button-submit
+                )
+                    | Cập nhật
+            .permission-box
+                h3.card-title Chọn nhóm quyền
 
-            table(class="table permission-table role-table")
-                thead
-                    tr
-                        th Tên nhóm
-                        th Mô tả
-                        th Chọn
+                table(class="table permission-table role-table")
+                    thead
+                        tr
+                            th Tên nhóm
+                            th Mô tả
+                            th Chọn
 
-                tbody
-                    each item in role
-                        tr(data-id=item._id)
-                            td.text-center #{item.title}
-                            td.text-center !{item.description}
-                            td.text-center
-                                input(
-                                    type="radio"
-                                    name="role_id"
-                                    value=item._id
-                                )
-        .permission-box
-            h3.card-title Phân quyền
-            table(
-                class="table permission-table" 
-                id = "permission"
-            )
-                thead
-                    tr
-                        th Nhóm quyền
-                        th.text-center XEM
-                        th.text-center TẠO MỚI
-                        th.text-center CHỈNH SỬA
-                        th.text-center XÓA
+                    tbody
+                        each item in role
+                            tr(data-id=item._id)
+                                td.text-center #{item.title}
+                                td.text-center !{item.description}
+                                td.text-center
+                                    input(
+                                        type="radio"
+                                        name="role_id"
+                                        value=item._id
+                                        checked=(roleAccount.id == item._id)
+                                    )
+            .permission-box
+                h3.card-title Phân quyền
+                table(
+                    class="table permission-table" 
+                    id = "permission"
+                )
+                    thead
+                        tr
+                            th Nhóm quyền
+                            th.text-center XEM
+                            th.text-center TẠO MỚI
+                            th.text-center CHỈNH SỬA
+                            th.text-center XÓA
 
-                tbody
-                    tr
-                        td
-                            div(class="module")
-                                b Bài hát
-                        td(class="text-center") 
-                            input(type="checkbox" value="songs_view")
-                        td(class="text-center") 
-                            input(type="checkbox" value="songs_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="songs_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="songs_delete")
+                    tbody
+                        tr
+                            td
+                                div(class="module")
+                                    b Bài hát
+                            td(class="text-center") 
+                                input(type="checkbox" value="songs_view")
+                            td(class="text-center") 
+                                input(type="checkbox" value="songs_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="songs_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="songs_delete")
+                            
+
+                        tr
+                            td
+                                div(class="module")
+                                    b Ca sĩ
+                            td(class="text-center") 
+                                input(type="checkbox" value="singers_view")
+                            td(class="text-center") 
+                                input(type="checkbox" value="singers_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="singers_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="singers_delete")
+                            
+
+                        tr
+                            td
+                                div(class="module")
+                                    b Thể loại
+                            td(class="text-center") 
+                                input(type="checkbox" value="topics_view")
+                            td(class="text-center") 
+                                input(type="checkbox" value="topics_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="topics_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="topics_delete")
+                            
+                        tr
+                            td
+                                div(class="module")
+                                    b Người dùng
+                            td(class="text-center") 
+                                input(type="checkbox" value="users_view")
+                            td(class="text-center") 
+                                input(type="checkbox" value="users_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="users_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="users_delete")
+                            
+
+                        tr
+                            td
+                                div(class="module")
+                                    b Tài khoản
+                            td(class="text-center") 
+                                input(type="checkbox" value="accounts_view")
+                            td(class="text-center") 
+                                input(type="checkbox" value="accounts_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="accounts_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="accounts_delete")
                         
+                        tr
+                            td
+                                div(class="module")
+                                    b Nhóm quyền
+                            td(class="text-center") 
+                                input(type="checkbox" value="roles_view")
+                            td(class="text-center") 
+                                input(type="checkbox" value="roles_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="roles_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="roles_delete")
+                            
+                        tr
+                            td
+                                div(class="module")
+                                    b Phân quyền
+                            td(class="text-center") 
+                                input(type="checkbox" value="permission_view")
+                            td(class="text-center")
+                                input(type="checkbox" value="permission_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="permission_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="permission_delete")
+                        tr
+                            td
+                                div(class="module")
+                                    b Cài đặt
+                            td(class="text-center") 
+                                input(type="checkbox" value="settings_view")
+                            td(class="text-center")
+                                input(type="checkbox" value="settings_create")
+                            td(class="text-center")
+                                input(type="checkbox" value="settings_edit")
+                            td(class="text-center")
+                                input(type="checkbox" value="settings_delete")
+        form(
+            method="post"
+            action=`${prefixAdmin}/roles/permission?_method=PATCH`
+            id="form-permission"
+            class="d-none"
+        )
+            input(type="text" name="permission")
 
-                    tr
-                        td
-                            div(class="module")
-                                b Ca sĩ
-                        td(class="text-center") 
-                            input(type="checkbox" value="singers_view")
-                        td(class="text-center") 
-                            input(type="checkbox" value="singers_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="singers_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="singers_delete")
-                        
-
-                    tr
-                        td
-                            div(class="module")
-                                b Thể loại
-                        td(class="text-center") 
-                            input(type="checkbox" value="topics_view")
-                        td(class="text-center") 
-                            input(type="checkbox" value="topics_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="topics_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="topics_delete")
-                        
-                    tr
-                        td
-                            div(class="module")
-                                b Người dùng
-                        td(class="text-center") 
-                            input(type="checkbox" value="users_view")
-                        td(class="text-center") 
-                            input(type="checkbox" value="users_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="users_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="users_delete")
-                        
-
-                    tr
-                        td
-                            div(class="module")
-                                b Tài khoản
-                        td(class="text-center") 
-                            input(type="checkbox" value="accounts_view")
-                        td(class="text-center") 
-                            input(type="checkbox" value="accounts_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="accounts_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="accounts_delete")
-                       
-                    tr
-                        td
-                            div(class="module")
-                                b Nhóm quyền
-                        td(class="text-center") 
-                            input(type="checkbox" value="roles_view")
-                        td(class="text-center") 
-                            input(type="checkbox" value="roles_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="roles_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="roles_delete")
-                        
-                    tr
-                        td
-                            div(class="module")
-                                b Phân quyền
-                        td(class="text-center") 
-                            input(type="checkbox" value="permission_view")
-                        td(class="text-center")
-                            input(type="checkbox" value="permission_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="permission_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="permission_delete")
-                    tr
-                        td
-                            div(class="module")
-                                b Cài đặt
-                        td(class="text-center") 
-                            input(type="checkbox" value="settings_view")
-                        td(class="text-center")
-                            input(type="checkbox" value="settings_create")
-                        td(class="text-center")
-                            input(type="checkbox" value="settings_edit")
-                        td(class="text-center")
-                            input(type="checkbox" value="settings_delete")
-    form(
-        method="post"
-        action=`${prefixAdmin}/roles/permission?_method=PATCH`
-        id="form-permission"
-        class="d-none"
-    )
-        input(type="text" name="permission")
-
-    script(src="/admin/JS/permission.js")
+        script(src="/admin/JS/permission.js")

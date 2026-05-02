@@ -1,6 +1,3 @@
-// const today = new Date().toISOString().split("T")[0];
-// document.getElementById("dateInput").setAttribute("min", today);
-
 // Phân trang
 const pageLink = document.querySelectorAll(".page-link");
 if (pageLink.length > 0) {

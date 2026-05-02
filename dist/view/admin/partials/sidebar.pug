@@ -12,74 +12,81 @@ div(class="sidebar")
             span Dashboard
 
         h4 Quản lý
-        a(
-            href=`${prefixAdmin}/songs`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-music")
-            span Bài hát
-
-        a(
-            href=`${prefixAdmin}/singers`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-user")
-            span Nghệ sĩ
-
-        a(
-            href=`${prefixAdmin}/topics`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-list")
-            span Thể loại
-
-        a(
-            href=`${prefixAdmin}/users`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-users")
-            span Người dùng
+        if(roleAccount.permission.includes("songs_view"))
+            a(
+                href=`${prefixAdmin}/songs`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-music")
+                span Bài hát
+        if(roleAccount.permission.includes("singers_view"))
+            a(
+                href=`${prefixAdmin}/singers`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-user")
+                span Nghệ sĩ
+        if(roleAccount.permission.includes("topics_view"))
+            a(
+                href=`${prefixAdmin}/topics`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-list")
+                span Thể loại
+        if(roleAccount.permission.includes("users_view"))
+            a(
+                href=`${prefixAdmin}/users`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-users")
+                span Người dùng
 
         h4 Quản lý
-        a(
-            href=`${prefixAdmin}/accounts`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-user-shield")
-            span Tài khoản
-        a(
-            href=`${prefixAdmin}/roles`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-users-cog")
-            span Nhóm quyền
-        a(
-            href=`${prefixAdmin}/roles/permission`
-            class="menu-item permission-sidebar"
-        )
-            i(class="fa fa-key")
-            span Phân quyền
+        if(roleAccount.permission.includes("accounts_view"))
+            a(
+                href=`${prefixAdmin}/accounts`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-user-shield")
+                span Tài khoản
+        if(roleAccount.permission.includes("roles_view"))
+            a(
+                href=`${prefixAdmin}/roles`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-users-cog")
+                span Nhóm quyền
+        if(roleAccount.permission.includes("permission_edit"))
+            a(
+                href=`${prefixAdmin}/roles/permission`
+                class="menu-item permission-sidebar"
+            )
+                i(class="fa fa-key")
+                span Phân quyền
 
         h4 Hệ thống
-        a(
-            href=`${prefixAdmin}/setting-general`
-            class="menu-item"
-            id="menu-item"
-        )
-            i(class="fa fa-cog")
-            span Cài đặt
+        if(roleAccount.permission.includes("settings_view"))
+            a(
+                href=`${prefixAdmin}/setting-general`
+                class="menu-item"
+                id="menu-item"
+            )
+                i(class="fa fa-cog")
+                span Cài đặt
 
     a(href=`${prefixAdmin}/info`, class="sidebar-link")
         .sidebar-footer
             .avatar AD
             div
                 p Admin
-                small admin@songnhac.vn
+                small #{accountAdmin.email}
+    a(href=`${prefixAdmin}/auth/logout`, class="sidebar-link") 
+        | Đăng xuất
 
     script(src="/admin/JS/sidebar.js") 

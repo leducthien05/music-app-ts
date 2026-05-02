@@ -20,7 +20,7 @@ router.patch(
     "/edit/:id", 
     upload.single("avatar"), 
     uploadCloud.uploadSingle,
-    validator.createAccount, 
+    validator.editAccount, 
     controller.editPatch
 );
 router.patch("/change-status/:status/:id", controller.changeStatus);

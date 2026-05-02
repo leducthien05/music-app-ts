@@ -34,14 +34,31 @@ const roleInputs = document.querySelectorAll("input[name='role_id']");
 const permissionInputs = document.querySelectorAll("#permission input");
 const roles = JSON.parse(document.querySelector("[data-role]").getAttribute("data-role"));
 roleInputs.forEach(radio => {
+    if (radio.checked) {
+        // reset tất cả permission
+        permissionInputs.forEach(item => {
+            item.checked = false;
+        });
+        // tìm role tương ứng
+        const role = roles.find(item => {
+            return item._id === radio.value
+        });
+        if (role) {
+            permissionInputs.forEach(item => {
+                if (role.permission.includes(item.value)) {
+                    item.checked = true;
+                }
+            });
+        }
+    }
     radio.addEventListener("change", () => {
         if (radio.checked) {
             // reset tất cả permission
-            permissionInputs.forEach(item =>{
+            permissionInputs.forEach(item => {
                 item.checked = false;
             });
             // tìm role tương ứng
-            const role = roles.find(item =>{
+            const role = roles.find(item => {
                 return item._id === radio.value
             });
             if (role) {

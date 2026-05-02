@@ -47,6 +47,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleted = exports.changeStatus = exports.editPatch = exports.edit = exports.createPost = exports.create = exports.index = void 0;
 const account_model_1 = __importDefault(require("../../model/account.model"));
+const role_model_1 = __importDefault(require("../../model/role.model"));
 const system_1 = require("../../config/system");
 const search_1 = require("../../helper/search");
 const pagination_1 = require("../../helper/pagination");
@@ -82,8 +83,12 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.index = index;
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const role = yield role_model_1.default.find({
+        deleted: false
+    });
     res.render("admin/page/account/create", {
-        titlePage: "Thêm tài khoản"
+        titlePage: "Thêm tài khoản",
+        role: role
     });
 });
 exports.create = create;
@@ -108,6 +113,7 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             avatar: avatar,
             email: email,
             password: password,
+            role_id: req.body.role_id,
             status: "active",
         };
         const dataAccount = new account_model_1.default(data);
@@ -122,15 +128,31 @@ const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         _id: idAccount,
         deleted: false
     });
+    if (!account) {
+        return res.redirect(req.get("referer"));
+    }
+    const role = yield role_model_1.default.find({
+        deleted: false
+    });
     res.render("admin/page/account/edit", {
         titlePage: "Chỉnh sửa tài khoản",
-        account: account
+        account: account,
+        role: role
     });
 });
 exports.edit = edit;
 const editPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
     const idAccount = req.params.id.toString();
+    console.log(req.body);
+    const existEmail = yield account_model_1.default.findOne({
+        _id: { $ne: idAccount },
+        email: req.body.email,
+        status: "active",
+        deleted: false
+    });
+    if (existEmail) {
+        return res.redirect(req.get("referer"));
+    }
     ;
     const data = {
         fullName: req.body.fullName,
@@ -144,6 +166,9 @@ const editPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     if (req.body.avatar) {
         data["avatar"] = req.body.avatar;
+    }
+    if (req.body.role_id) {
+        data["role_id"] = req.body.role_id;
     }
     yield account_model_1.default.updateOne({
         _id: idAccount

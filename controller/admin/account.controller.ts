@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import Account from "../../model/account.model";
+import Role from "../../model/role.model";
 
 import { systemConfig } from "../../config/system";
 import { search } from "../../helper/search";
@@ -44,8 +45,12 @@ export const index = async (req: Request, res: Response) => {
 
 // [GET] /admin/accounts/create
 export const create = async (req: Request, res: Response) => {
+    const role = await Role.find({
+        deleted: false
+    });
     res.render("admin/page/account/create", {
-        titlePage: "Thêm tài khoản"
+        titlePage: "Thêm tài khoản",
+        role: role
     });
 }
 
@@ -80,6 +85,7 @@ export const createPost = async (req: Request, res: Response) => {
             avatar: avatar,
             email: email,
             password: password,
+            role_id: req.body.role_id,
             status: "active",
         }
         const dataAccount = new Account(data);
@@ -96,16 +102,32 @@ export const edit = async (req: Request, res: Response) => {
         _id: idAccount,
         deleted: false
     });
+    if(!account){
+        return res.redirect(req.get("referer"));
+    }
+    const role = await Role.find({
+        deleted: false
+    });
     res.render("admin/page/account/edit", {
         titlePage: "Chỉnh sửa tài khoản",
-        account: account
+        account: account,
+        role: role
     });
 }
 
 // [PATCH] /admin/songs/edit/:id
 export const editPatch = async (req: Request, res: Response) => {
-    console.log(req.body)
     const idAccount: string = req.params.id.toString();
+    console.log(req.body)
+    const existEmail = await Account.findOne({
+        _id: {$ne: idAccount},
+        email: req.body.email,
+        status: "active",
+        deleted: false
+    });
+    if(existEmail){
+        return res.redirect(req.get("referer"));
+    }
     interface account {
         fullName: String,
         phone?: String,
@@ -127,6 +149,9 @@ export const editPatch = async (req: Request, res: Response) => {
     }
     if (req.body.avatar) {
         data["avatar"] = req.body.avatar;
+    }
+    if(req.body.role_id){
+        data["role_id"] = req.body.role_id
     }
     await Account.updateOne({
         _id: idAccount

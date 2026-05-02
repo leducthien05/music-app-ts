@@ -40,5 +40,25 @@ export const createAccount = (req: Request, res: Response, next: NextFunction) =
     }
     next();
 }  
-
-
+export const editAccount = (req: Request, res: Response, next: NextFunction) => {
+    if(req.body.fullName == ""){
+        req.flash("error", "Họ tên không được để trống!");
+        return res.redirect(req.get("referer") || "/admin/accounts");
+    }
+    if(req.body.email == ""){
+        req.flash("error", "Email không được để trống!");
+        return res.redirect(req.get("referer") || "/admin/accounts");
+    }
+    next();
+}  
+export const login = (req: Request, res: Response, next: NextFunction) => {
+    if(req.body.email == ""){
+        req.flash("error", "Email không được để trống!");
+        return res.redirect(req.get("referer"));
+    }
+    if(req.body.password == ""){
+        req.flash("error", "Mật khẩu không được để trống!");
+        return res.redirect(req.get("referer"));
+    }
+    next();
+} 

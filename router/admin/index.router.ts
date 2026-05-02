@@ -9,14 +9,18 @@ import { RouterSinger } from "./singer.router";
 import { RouterUser } from "./user.router";
 import { RouterAccount } from "./account.router";
 import { RouterRole } from "./role.router";
+import { RouterAuth } from "./auth.router";
+
+import { authLogin } from "../../middleware/admin/auth.middleware";
 
 export const indexRouterAdmin = (app: Express) =>{
-    app.use(`${systemConfig.prefixAdmin}/dashboard`, RouterDashboard);
-    app.use(`${systemConfig.prefixAdmin}/topics`, RouterTopic);
-    app.use(`${systemConfig.prefixAdmin}/songs`, RouterSong);
-    app.use(`${systemConfig.prefixAdmin}/upload`, RouterUpload);
-    app.use(`${systemConfig.prefixAdmin}/singers`, RouterSinger);
-    app.use(`${systemConfig.prefixAdmin}/users`, RouterUser);
-    app.use(`${systemConfig.prefixAdmin}/accounts`, RouterAccount);
-    app.use(`${systemConfig.prefixAdmin}/roles`, RouterRole);
+    app.use(`${systemConfig.prefixAdmin}/dashboard`, authLogin, RouterDashboard);
+    app.use(`${systemConfig.prefixAdmin}/topics`, authLogin, RouterTopic);
+    app.use(`${systemConfig.prefixAdmin}/songs`, authLogin, RouterSong);
+    app.use(`${systemConfig.prefixAdmin}/upload`, authLogin, RouterUpload);
+    app.use(`${systemConfig.prefixAdmin}/singers`, authLogin, RouterSinger);
+    app.use(`${systemConfig.prefixAdmin}/users`, authLogin, RouterUser);
+    app.use(`${systemConfig.prefixAdmin}/accounts`, authLogin, RouterAccount);
+    app.use(`${systemConfig.prefixAdmin}/roles`, authLogin, RouterRole);
+    app.use(`${systemConfig.prefixAdmin}/auth`, RouterAuth);
 }
