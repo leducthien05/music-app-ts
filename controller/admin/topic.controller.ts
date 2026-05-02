@@ -22,8 +22,8 @@ export const index = async (req: Request, res: Response) => {
     const count = await Topic.countDocuments(find);
     const objectPagination = pagination(req.query, count);
     // Tìm kiếm
-    if (req.query.keyword) {
-        const objectSearch = search(req.query);
+    const objectSearch = search(req.query);
+    if (req.query.keyword) { 
         const title = objectSearch.regex;
         const textSlug = objectSearch.slug;
         find["$or"] = [
@@ -38,6 +38,7 @@ export const index = async (req: Request, res: Response) => {
         topics: topic,
         pagination: objectPagination,
         filterStatus: filter,
+        keyword: objectSearch.keyword
     });
 }
 

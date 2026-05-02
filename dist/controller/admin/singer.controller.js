@@ -12,12 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleted = exports.editPatch = exports.edit = exports.changeStatus = exports.createPost = exports.create = exports.index = void 0;
-const topics_model_1 = __importDefault(require("../../model/topics.model"));
+exports.deleted = exports.changeStatus = exports.editPatch = exports.edit = exports.createPost = exports.create = exports.index = void 0;
+const song_model_1 = __importDefault(require("../../model/song.model"));
+const singer_model_1 = __importDefault(require("../../model/singer.model"));
+const system_1 = require("../../config/system");
 const search_1 = require("../../helper/search");
 const pagination_1 = require("../../helper/pagination");
 const filterStatus_1 = require("../../helper/filterStatus");
-const system_1 = require("../../config/system");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const find = {
         deleted: false
@@ -26,30 +27,42 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.query.status) {
         find["status"] = req.query.status;
     }
-    const count = yield topics_model_1.default.countDocuments(find);
+    const count = yield singer_model_1.default.countDocuments(find);
     const objectPagination = (0, pagination_1.pagination)(req.query, count);
     const objectSearch = (0, search_1.search)(req.query);
-    if (req.query.keyword) {
-        const title = objectSearch.regex;
+    if (objectSearch.regex) {
+        const nameSinger = objectSearch.regex;
         const textSlug = objectSearch.slug;
         find["$or"] = [
-            { title: title },
+            { nameSinger: nameSinger },
             { slug: textSlug }
         ];
     }
-    const topic = yield topics_model_1.default.find(find).skip(objectPagination.skip).limit(objectPagination.limit);
-    res.render("admin/page/topic/index", {
-        titlePage: "Thể loại",
-        topics: topic,
+    const singer = yield singer_model_1.default.find(find).skip(objectPagination.skip).limit(objectPagination.limit);
+    const idSinger = singer.map(item => item.id);
+    const songMap = {};
+    for (const id of idSinger) {
+        const count = yield song_model_1.default.countDocuments({
+            singer_id: id,
+            deleted: false
+        });
+        songMap[id] = count;
+    }
+    singer.forEach(item => {
+        item["totalSong"] = songMap[item.id];
+    });
+    res.render("admin/page/singer/index", {
+        titlePage: "Ca sĩ/Nghệ sĩ",
         pagination: objectPagination,
         filterStatus: filter,
-        keyword: objectSearch.keyword
+        keyword: objectSearch.keyword,
+        singer: singer,
     });
 });
 exports.index = index;
 const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.render("admin/page/topic/create", {
-        titlePage: "Thêm bài thể loại"
+    res.render("admin/page/singer/create", {
+        titlePage: "Thêm ca sĩ/nghệ sĩ mới"
     });
 });
 exports.create = create;
@@ -61,20 +74,52 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     ;
     const data = {
-        title: req.body.title,
+        nameSinger: req.body.nameSinger,
         avatar: avatar,
         description: req.body.description,
         status: "active",
     };
-    const dataTopic = new topics_model_1.default(data);
-    yield dataTopic.save();
-    res.redirect(`${system_1.systemConfig.prefixAdmin}/topics`);
+    const dataSinger = new singer_model_1.default(data);
+    yield dataSinger.save();
+    res.redirect(`${system_1.systemConfig.prefixAdmin}/singers`);
 });
 exports.createPost = createPost;
+const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const idSinger = req.params.id.toString();
+    const singer = yield singer_model_1.default.findOne({
+        _id: idSinger
+    });
+    if (!singer) {
+        return res.redirect(req.get("referer") || "/");
+    }
+    res.render("admin/page/singer/edit", {
+        titlePage: "Chỉnh sửa ca sĩ/nghệ sĩ",
+        singer: singer
+    });
+});
+exports.edit = edit;
+const editPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(req.body);
+    const idSinger = req.params.id.toString();
+    ;
+    const data = {
+        nameSinger: req.body.nameSinger,
+        description: req.body.description,
+        status: "active",
+    };
+    if (req.body.avatar) {
+        data["avatar"] = req.body.avatar;
+    }
+    yield singer_model_1.default.updateOne({
+        _id: idSinger
+    }, data);
+    res.redirect(`${system_1.systemConfig.prefixAdmin}/singers`);
+});
+exports.editPatch = editPatch;
 const changeStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const status = req.params.status.toString();
     const id = req.params.id.toString();
-    yield topics_model_1.default.updateOne({
+    yield singer_model_1.default.updateOne({
         _id: id
     }, {
         $set: {
@@ -88,47 +133,15 @@ const changeStatus = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     });
 });
 exports.changeStatus = changeStatus;
-const edit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const idTopic = req.params.id.toString();
-    const topic = yield topics_model_1.default.findOne({
-        _id: idTopic
-    });
-    if (!topic) {
-        return res.redirect(req.get("referer") || "/");
-    }
-    res.render("admin/page/topic/edit", {
-        titlePage: "Chỉnh sửa thể loại",
-        topic: topic
-    });
-});
-exports.edit = edit;
-const editPatch = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body);
-    const idTopic = req.params.id.toString();
-    ;
-    const data = {
-        title: req.body.title,
-        description: req.body.description,
-        status: req.body.status,
-    };
-    if (req.body.avatar) {
-        data["avatar"] = req.body.avatar;
-    }
-    yield topics_model_1.default.updateOne({
-        _id: idTopic
-    }, data);
-    res.redirect(`${system_1.systemConfig.prefixAdmin}/topics`);
-});
-exports.editPatch = editPatch;
 const deleted = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const idTopic = req.params.id.toString();
-    yield topics_model_1.default.updateOne({
-        _id: idTopic
+    const idSinger = req.params.id.toString();
+    yield singer_model_1.default.updateOne({
+        _id: idSinger
     }, {
         $set: {
             deleted: true
         }
     });
-    res.redirect(`${system_1.systemConfig.prefixAdmin}/topics`);
+    res.redirect(`${system_1.systemConfig.prefixAdmin}/singers`);
 });
 exports.deleted = deleted;

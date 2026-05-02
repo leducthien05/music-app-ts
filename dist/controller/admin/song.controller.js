@@ -50,8 +50,8 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     const count = yield song_model_1.default.countDocuments(find);
     const objectPagination = (0, pagination_1.pagination)(req.query, count);
-    if (req.query.keyword) {
-        const objectSearch = (0, search_1.search)(req.query);
+    const objectSearch = (0, search_1.search)(req.query);
+    if (objectSearch.regex) {
         const nameSong = objectSearch.regex;
         const textSlug = objectSearch.slug;
         find["$or"] = [
@@ -89,7 +89,8 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         pagination: objectPagination,
         filterStatus: filter,
         singer: singerAll,
-        topic: topicAll
+        topic: topicAll,
+        keyword: objectSearch.keyword
     });
 });
 exports.index = index;

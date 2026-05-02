@@ -122,14 +122,17 @@ if (btnClear) {
 const formDelte = document.querySelector("#form-delete");
 const path = formDelte.action;
 if (formDelte) {
-    const btnDelete = document.querySelector("[btn-delete]");
-    if (btnDelete) {
-        btnDelete.addEventListener("click", () => {
-            const id = btnDelete.getAttribute("data-id");
-            const action = `${path}/${id}?_method=DELETE`;
-            formDelte.action = action;
-            formDelte.submit();
+    const btnDelete = document.querySelectorAll("[btn-delete]");
+    if (btnDelete.length > 0) {
+        btnDelete.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const id = btn.getAttribute("data-id");
+                const action = `${path}/${id}?_method=DELETE`;
+                formDelte.action = action;
+                formDelte.submit();
+            });
         });
+
     }
 
 }

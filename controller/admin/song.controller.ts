@@ -36,17 +36,17 @@ export const index = async (req: Request, res: Response) => {
             deleted: false,
             slug: slug
         });
-        if(singer){
+        if (singer) {
             find["singer_id"] = singer.id
         }
-        
+
     }
     // Phần trang
     const count = await Song.countDocuments(find);
     const objectPagination = pagination(req.query, count);
     // Tìm kiếm
-    if (req.query.keyword) {
-        const objectSearch = search(req.query);
+    const objectSearch = search(req.query);
+    if (objectSearch.regex) {
         const nameSong = objectSearch.regex;
         const textSlug = objectSearch.slug;
         find["$or"] = [
@@ -88,7 +88,8 @@ export const index = async (req: Request, res: Response) => {
         pagination: objectPagination,
         filterStatus: filter,
         singer: singerAll,
-        topic: topicAll
+        topic: topicAll,
+        keyword: objectSearch.keyword
     });
 }
 

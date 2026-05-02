@@ -39,12 +39,12 @@ block content
             )
                 input(
                     type="text", 
-                    placeholder="Tìm kiếm thể loại"
+                    placeholder="Tìm kiếm ca sĩ/nghệ sĩ"
                     name="keyword"
                     value=keyword
                 )
             a(
-                href=`${prefixAdmin}/topics/create`
+                href=`${prefixAdmin}/singers/create`
                 class="btn-add"
             )
                 i(class="fa fa-plus")
@@ -56,14 +56,14 @@ block content
                 tr
                     th STT
                     th Hình ảnh
-                    th Thể loại
+                    th Ca sĩ
                     th Mô tả
-                    //- th Bài hát
+                    th Số bài hát
                     th Trạng thái
                     th Thao tác
 
             tbody
-                each item, index in topics
+                each item, index in singer
                     tr
                         td #{index + 1}
                         td  
@@ -71,8 +71,9 @@ block content
                                 src=item.avatar
                                 width="60"
                             )
-                        td #{item.title}
+                        td #{item.nameSinger}
                         td !{item.description}
+                        td #{item.totalSong}
                         td 
                             if(item.status === "active")
                                 button(
@@ -88,7 +89,7 @@ block content
                                 ) Inactive
                         td(class="action-btns")
                             a(
-                                href=`${prefixAdmin}/topics/edit/${item._id}`
+                                href=`${prefixAdmin}/singers/edit/${item._id}`
                                 class="btn-edit" 
                                 data-id=item._id 
                                 title="Sửa"
@@ -105,11 +106,11 @@ block content
         +pagination
 
     form(
-        action = `${prefixAdmin}/topics`
+        action = `${prefixAdmin}/singers`
         id="form-get-path"
     )
     form(
-        action = `${prefixAdmin}/topics/delete`
+        action = `${prefixAdmin}/singers/delete`
         method="POST"
         id="form-delete"
     )
