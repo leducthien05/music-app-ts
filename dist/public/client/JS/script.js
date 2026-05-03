@@ -28,7 +28,7 @@ if (aplayer) {
                     }
                 })
                     .then(res => res.json())
-                    .then((data)=>{
+                    .then((data) => {
                         const listCount = document.querySelector("[listen-count]");
                         listCount.textContent = `${data.listenCount} lượt nghe`;
                     });
@@ -42,6 +42,10 @@ if (aplayer) {
 const likeBtn = document.querySelector("[data-song-id-like]");
 if (likeBtn) {
     likeBtn.addEventListener("click", async () => {
+        const dataUser = document.querySelector("[data-user-layout]").getAttribute("data-user-layout");
+        if (!dataUser) {
+            window.location.href = "/users/login";
+        }
         const songId = likeBtn.getAttribute("data-song-id-like");
         const isLiked = likeBtn.classList.contains("liked");
         const action = isLiked ? "no" : "yes";
@@ -72,6 +76,10 @@ const favoriteBtn = document.querySelectorAll("[data-song-id-favorite]");
 if (favoriteBtn.length > 0) {
     favoriteBtn.forEach(btn => {
         btn.addEventListener("click", async () => {
+            const dataUser = document.querySelector("[data-user-layout]").getAttribute("data-user-layout");
+            if (!dataUser) {
+                window.location.href = "/users/login";
+            }
             const songId = btn.getAttribute("data-song-id-favorite");
             const isFavorite = btn.classList.contains("favorite");
             const action = isFavorite ? "no" : "yes";

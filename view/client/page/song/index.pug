@@ -1,0 +1,31 @@
+extends ../../layout/default.pug
+
+block content
+    .search-page
+        .search-wrapper
+            h2.search-title Khám phá bài hát đi nào 
+                if(songs)
+                    div(class="songs-list")
+                        each song, index in songs
+                            div(
+                                class="song-row"
+                                onclick=`playSong('${song._id}')`
+                            )
+                                div(class="song-left")
+                                    span(class="song-index") #{index + 1}
+                                    img(
+                                        class="song-thumb"
+                                        src=song.avatar , 
+                                        alt=song.nameSong
+                                    )
+
+                                    div(class="song-info")
+                                        a(href=`/songs/detail/${song.slug}`)
+                                            div(class="song-title") #{song.nameSong}
+                                        div(class="song-artist") #{song.infoSinger.nameSinger}
+
+                                button(
+                                    class=`btn-favorite ${favorite == "1" ? "favorite" : ""}`
+                                    data-song-id-favorite=song._id
+                                ) 
+                                    span(class="text") ♥ Yêu thích

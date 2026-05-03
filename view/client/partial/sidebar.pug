@@ -3,31 +3,22 @@ aside.sidebar
         | Sóng Nhạc 
         span.logo-dot
 
-    div.sidebar
-        div.nav-label Khám phá
-
     ul(class="nav-list")
-        li(class="nav-item active")
-            a(href="/") Trang chủ
+        li(class="nav-item")
+            a(href="/") Khám phá
 
         li(class="nav-item")
             a(href="/search") Tìm kiếm
 
         li(class="nav-item")
-            a(href="/library") Thư viện
-
+            a(href="/topics") Chủ đề
         li(class="nav-item")
+            a(href="/songs") Bài hát
+        li(class="nav-item favorite")
             a(href="/songs/favorite-songs") Yêu thích
 
     .playlists
         div(class="nav-label") Danh sách phát
-
-        //- each item in playlists
-        //-     .playlist-item
-        //-         .playlist-thumb(style=`background:${item.bg}`)= item.icon
-        //-         div
-        //-             div(style="font-size:0.85rem;font-weight:500;color:var(--dark)")= item.name
-        //-             div(style="font-size:0.72rem;color:var(--brown)")= item.count
     // 🔥 AUTH ACTIONS
     .auth-actions
         if user
@@ -44,3 +35,4 @@ aside.sidebar
             a(
                 class="btn-register"
                 href="/users/register") Đăng ký
+    script(src="/client/JS/sidebar.js") 

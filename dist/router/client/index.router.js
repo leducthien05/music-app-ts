@@ -5,12 +5,14 @@ const topic_router_1 = require("./topic.router");
 const song_router_1 = require("./song.router");
 const user_router_1 = require("./user.router");
 const search_router_1 = require("./search.router");
+const home_router_1 = require("./home.router");
 const user_middleware_1 = require("../../middleware/client/user.middleware");
 const indexRouter = (app) => {
     app.use(user_middleware_1.userMiddleware);
+    app.use("/", home_router_1.RouterHome);
     app.use("/search", search_router_1.RouterResult);
     app.use("/topics", topic_router_1.RouterTopic);
     app.use("/songs", song_router_1.RouterSong);
-    app.use("/users", user_router_1.userRouter);
+    app.use("/users", user_router_1.RouterUser);
 };
 exports.indexRouter = indexRouter;

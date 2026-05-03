@@ -17,7 +17,7 @@ const user_model_1 = __importDefault(require("../../model/user.model"));
 const userMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     if (req.cookies.tokenUser) {
         const tokenUser = req.cookies.tokenUser;
-        const user = yield user_model_1.default.findOne({ tokenUser, deleted: false });
+        const user = yield user_model_1.default.findOne({ tokenUser, deleted: false }).select("-password");
         if (!user) {
             return res.redirect("/users/login");
         }

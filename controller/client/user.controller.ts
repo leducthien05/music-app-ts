@@ -146,6 +146,6 @@ export const resetPasswordPost = async (req: Request, res: Response) => {
 export const logout = async (req: Request, res: Response) => {
     res.clearCookie("tokenUser");
     req.flash("success", "Đăng xuất thành công!");
-    res.redirect("/users/login");
+    res.redirect("/");
 }
 

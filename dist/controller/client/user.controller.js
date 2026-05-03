@@ -149,6 +149,6 @@ exports.resetPasswordPost = resetPasswordPost;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.clearCookie("tokenUser");
     req.flash("success", "Đăng xuất thành công!");
-    res.redirect("/users/login");
+    res.redirect("/");
 });
 exports.logout = logout;

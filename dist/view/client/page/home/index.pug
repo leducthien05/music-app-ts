@@ -8,32 +8,53 @@ block content
             span Bạn ơi
             |  🌤
 
-        div(class="search-bar")
-            input(
-                type="text", 
-                placeholder="Tìm bài hát..."
-            )
-
     section
-        div(class="section-title") ✦ Nổi bật hôm nay
+        div(class="section-title") ✦ Chủ đề
 
         div(class="featured-grid")
-            //- each card in featured
-            //-     .featured-card
-            //-     .card-note= card.icon
-            //-     .card-info
-            //-         h3= card.title
-            //-         p= card.desc
+            each item in topic
+                a(
+                    class="topic-card"
+                    href=`/topics/${item.slug}`
+                )
+                    img(
+                        class="topic-img"
+                        src=item.avatar, 
+                        alt=item.title
+                    )
+
+                    div(class="topic-overlay")
+                    div(class="topic-info")
+                        h3 #{item.title}
+                        p !{item.description}
 
     section
         div(class="section-title") 🎶 Bài hát phổ biến
 
-        div(class="songs-grid")
-            //- each song, index in songs
-            //-     .song-item(class=index === 0 ? "active" : "")
-            //-         .song-num= index + 1
-            //-         .song-cover(style=`background:${song.bg}`)= song.icon
-            //-         .song-meta
-            //-             .song-title= song.title
-            //-             .song-artist= song.artist
-            //-         .song-duration= song.time
+        .search-page
+            .search-wrapper
+                if(songs)
+                    div(class="songs-list")
+                        each song, index in songs
+                            div(
+                                class="song-row"
+                                onclick=`playSong('${song._id}')`
+                            )
+                                div(class="song-left")
+                                    span(class="song-index") #{index + 1}
+                                    img(
+                                        class="song-thumb"
+                                        src=song.avatar , 
+                                        alt=song.nameSong
+                                    )
+
+                                    div(class="song-info")
+                                        a(href=`/songs/detail/${song.slug}`)
+                                            div(class="song-title") #{song.nameSong}
+                                        div(class="song-artist") #{song.infoSinger.nameSinger}
+
+                                button(
+                                    class=`btn-favorite ${favorite == "1" ? "favorite" : ""}`
+                                    data-song-id-favorite=song._id
+                                ) 
+                                    span(class="text") ♥ Yêu thích

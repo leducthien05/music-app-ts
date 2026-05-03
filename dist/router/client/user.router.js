@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userRouter = void 0;
+exports.RouterUser = void 0;
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 const controller = __importStar(require("../../controller/client/user.controller"));
@@ -49,4 +49,4 @@ router.post("/get-otp", validator.getOTP, controller.getOTPPost);
 router.get("/reset-password", controller.resetPassword);
 router.post("/reset-password", validator.resetPassword, controller.resetPasswordPost);
 router.get("/logout", controller.logout);
-exports.userRouter = router;
+exports.RouterUser = router;

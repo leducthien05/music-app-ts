@@ -33,15 +33,9 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.RouterSong = void 0;
+exports.RouterHome = void 0;
 const express_1 = require("express");
 const router = (0, express_1.Router)();
-const controller = __importStar(require("../../controller/client/song.controller"));
-const auth_middleware_1 = require("../../middleware/client/auth.middleware");
+const controller = __importStar(require("../../controller/client/home.controller"));
 router.get("/", controller.index);
-router.get("/detail/:slugSong", controller.detail);
-router.patch("/like/:action/:id", auth_middleware_1.authMiddleware, controller.like);
-router.post("/favorite/:action/:id", auth_middleware_1.authMiddleware, controller.favorite);
-router.get("/favorite-songs", auth_middleware_1.authMiddleware, controller.listFavorite);
-router.patch("/listen/:idSong", controller.listen);
-exports.RouterSong = router;
+exports.RouterHome = router;

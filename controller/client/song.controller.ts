@@ -7,57 +7,37 @@ import Favorite from "../../model/song-favorite.model";
 
 // [GET] /songs
 export const index = async (req: Request, res: Response) => {
-    const song = await Song.find({
+    const songs = await Song.find({
         deleted: false,
         status: "active"
     });
-    console.log("OK");
-    res.render("client/page/song/index", {
-        titlePage: "Songs",
-        songs: song
-    });
-}
-
-// [GET] /songs/topics/:slugTopic
-export const listByTopic = async (req: Request, res: Response) => {
-    try {
-        const topic_slug: string = req.params.slugTopic.toString() || "";
-        const topic = await Topic.findOne({
+    let favorite = "0";
+    for (const item of songs) {
+        const infoSinger = await Singer.findOne({
             deleted: false,
-            status: "active",
-            slug: topic_slug
+            _id: item.singer_id
         });
-        console.log(topic)
-        const id = topic.id.toString();
-        const songs = await Song.find({
-            deleted: false,
-            status: "active",
-            topic_id: id
-        }).select("nameSong singer_id avatar like slug").lean();
-        for (const item of songs) {
-            const infoSinger = await Singer.findOne({
-                deleted: false,
-                status: "active",
-                _id: item.singer_id
-            });
-            if (!infoSinger) {
-                return;
-            } else {
-                item["infoSinger"] = infoSinger;
+        item["infoSinger"] = infoSinger;
+        // Kiểm tra xem người dùng đã yêu thích bài hát này chưa
 
+        if (res.locals.user) {
+            const isFavorite = await Favorite.findOne({
+                deleted: false,
+                user_id: res.locals.user.id,
+                song_id: item.id
+            });
+
+            if (isFavorite) {
+                favorite = "1"
             }
         }
 
-        res.render("client/page/song/list", {
-            titlePage: topic.title,
-            topic: topic,
-            songs: songs
-        });
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).send("Server Error");
     }
+    res.render("client/page/song/index", {
+        titlePage: "Songs",
+        songs: songs,
+        favorite: favorite
+    });
 }
 
 // [GET] /songs/detail/:slugSong
@@ -260,7 +240,7 @@ export const listen = async (req: Request, res: Response) => {
         if (!song) {
             return res.status(404).send("Song not found");
         }
-        
+
         await Song.updateOne({
             _id: idSong,
             deleted: false,

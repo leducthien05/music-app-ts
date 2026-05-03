@@ -16,4 +16,4 @@ router.get("/reset-password", controller.resetPassword);
 router.post("/reset-password", validator.resetPassword, controller.resetPasswordPost);
 router.get("/logout", controller.logout);
 
-export const userRouter: Router = router;
+export const RouterUser: Router = router;

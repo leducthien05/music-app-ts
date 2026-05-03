@@ -16,7 +16,7 @@ block content
                 each item in topic
                     a(
                         class="topic-card"
-                        href=`/songs/topics/${item.slug}`
+                        href=`/topics/${item.slug}`
                     )
                         img(
                             class="topic-img"
@@ -26,5 +26,5 @@ block content
 
                         div(class="topic-overlay")
                         div(class="topic-info")
-                            h3= item.title
-                            p= item.description
+                            h3 #{item.title}
+                            p !{item.description}

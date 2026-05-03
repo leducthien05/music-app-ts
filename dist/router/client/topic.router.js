@@ -38,4 +38,5 @@ const express_1 = require("express");
 const router = (0, express_1.Router)();
 const controller = __importStar(require("../../controller/client/topic.controller"));
 router.get("/", controller.index);
+router.get("/:slug", controller.listByTopic);
 exports.RouterTopic = router;
