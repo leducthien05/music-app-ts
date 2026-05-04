@@ -4,12 +4,12 @@ export const sendMail = async (email: string, subject: string, html: string) => 
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            user: "ducthien090905@gmail.com",
-            pass: "zbvz ezjv gdhp vtmp"
+            user: process.env.EMAIL,
+            pass: process.env.PASSWORD
         },
     });
     const message = {
-        from: "ducthien090905@gmail.com",
+        from: process.env.EMAIL,
         to: email,
         subject: subject,
         html: html
