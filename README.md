@@ -29,6 +29,10 @@ Dự án được thiết kế theo hướng component-based, tối ưu trải n
 ### 🎨 UI/UX
 - Giao diện responsive (mobile & desktop)
 
+### Demo
+-email: ducthien090905@gmail.com
+-password: 12345678
+
 ### ENV
 MONGO_URI=your_uri
 PORT=your_port
